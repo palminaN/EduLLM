@@ -4,77 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFD5E3"
+    android:background="@null"
     android:padding="24dp">
-
-    <TextView
-        android:id="@+id/tvStoryName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=":Nom de l’histoire:"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Story so far -->
 
     <!-- Prompt -->
 
-    <EditText
-        android:id="@+id/etPrompt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:background="@color/white"
-        android:gravity="top|start"
-        android:hint="Donne des indications à ton personnage !"
-        android:inputType="textMultiLine"
-        android:minHeight="100dp"
-        android:padding="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvPrompt" />
-
     <TextView
-        android:id="@+id/tvPrompt"
-        android:layout_width="0dp"
+        android:id="@+id/tvStoryName"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Que doit faire ton personnage ?"
-        android:textAlignment="center"
-        android:textSize="16sp"
+        android:layout_marginTop="8dp"
+        android:text=":Nom de l’histoire:"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="383dp"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/btnContinueStory"
-        android:layout_width="200dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="36dp"
-        android:backgroundTint="#544B8A"
-        android:text="Continuer l’histoire !"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etPrompt" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="397dp"
-        android:layout_height="306dp"
+        android:layout_width="376dp"
+        android:layout_height="220dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginBottom="21dp"
         android:background="@color/white"
+        android:gravity="left"
         android:orientation="vertical"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        tools:layout_editor_absoluteX="-19dp"
-        tools:layout_editor_absoluteY="56dp"
+        app:layout_constraintBottom_toTopOf="@+id/tvPrompt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.384"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
 
         <TextView
@@ -83,5 +48,50 @@
             android:layout_height="wrap_content"
             android:text="Histoire" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btnContinueStory"
+        android:layout_width="200dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="#4E3473"
+        android:text="Continuer l’histoire !"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etPrompt" />
+
+    <TextView
+        android:id="@+id/tvPrompt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="376dp"
+        android:text="Que doit faire ton personnage ?"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/etPrompt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:background="@color/white"
+        android:gravity="top|start"
+        android:hint="Donne des indications à ton personnage !"
+        android:inputType="textMultiLine"
+        android:minHeight="100dp"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvPrompt" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
