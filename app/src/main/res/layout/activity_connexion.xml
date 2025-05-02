@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@null">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Connexion"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="86dp" />
+
+    <RadioGroup
+        android:id="@+id/user_type_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <!--  android:button="@android:color/transparent" -->
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/radio0"
+            android:button="@android:color/transparent"
+            android:layout_width="125dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:background="@drawable/radio_button_background_left"
+            android:checked="true"
+            android:paddingLeft="16dp"
+            android:paddingTop="3dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="3dp"
+            android:text="Parent"
+            android:textColor="@color/black" >
+        </androidx.appcompat.widget.AppCompatRadioButton>
+
+        <RadioButton
+            android:id="@+id/radio1"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/radio_button_background_right"
+            android:gravity="center"
+            android:paddingLeft="16dp"
+            android:paddingTop="3dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="3dp"
+            android:button="@android:color/transparent"
+            android:text="Enfant"
+            android:textColor="@color/black" />
+
+    </RadioGroup>
+
+<!--
+
+    <RadioGroup
+        android:id="@+id/daily_weekly_button_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <RadioButton
+            android:id="@+id/radio0"
+            android:layout_width="125dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_radio_button_selected"
+            android:button="@android:color/transparent"
+            android:checked="true"
+            android:paddingLeft="16dp"
+            android:paddingTop="3dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="3dp"
+            android:text="Daily"
+            android:textColor="@color/black" />
+
+        <RadioButton
+            android:id="@+id/radio1"
+            android:layout_width="125dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_radio_button"
+            android:button="@android:color/transparent"
+            android:checked="true"
+            android:paddingLeft="16dp"
+            android:paddingTop="3dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="3dp"
+            android:text="Daily"
+            android:textColor="@color/black" />
+
+    </RadioGroup>
+
+ -->
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Nom d'utilisateur"
+        android:inputType="text"
+        android:text="Antonin"
+        app:layout_constraintTop_toBottomOf="@id/user_type_group"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="24dp"/>
+
+    <TextView
+        android:id="@+id/username_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nom d'utilisateur incorrect"
+        android:textColor="#FF0000"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@id/username"
+        app:layout_constraintStart_toStartOf="@id/username"/>
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Mot de passe"
+        android:inputType="textPassword"
+        android:text="password"
+        app:layout_constraintTop_toBottomOf="@id/username_error"
+        app:layout_constraintStart_toStartOf="@id/username"
+        app:layout_constraintEnd_toEndOf="@id/username"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/password_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mot de passe incorrect"
+        android:textColor="#FF0000"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@id/password"
+        app:layout_constraintStart_toStartOf="@id/password"/>
+
+    <Button
+        android:id="@+id/btn_connect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Se connecter"
+        android:backgroundTint="#4E3473"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@id/password_error"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"/>
+
+    <TextView
+        android:id="@+id/forgot_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mot de passe oublié ?"
+        android:textColor="#0000FF"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@id/btn_connect"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
+
+    <TextView
+        android:id="@+id/register_prompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pas inscrit ?  Créer un compte"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@id/forgot_password"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
