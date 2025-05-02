@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="-XP\nLEVEL 1"
+            android:text="0XP : LEVEL 1"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -36,16 +36,6 @@
     </LinearLayout>
 
     <!-- Title -->
-    <TextView
-        android:id="@+id/appTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="EduLLM"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/topBar"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="24dp" />
 
     <!-- Subtitle -->
     <TextView
@@ -54,9 +44,8 @@
         android:layout_height="wrap_content"
         android:text="A quoi joue-t-on aujourd'hui ?"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/appTitle"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="12dp" />
+        tools:layout_editor_absoluteY="122dp" />
 
     <!-- Buttons -->
 
@@ -66,7 +55,7 @@
         android:id="@+id/buttonContainer"
         android:layout_width="378dp"
         android:layout_height="323dp"
-        android:layout_marginTop="104dp"
+        android:layout_marginTop="60dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -114,7 +103,7 @@
         android:id="@+id/funFact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Anecdote du jour : Savais-tu que Mario et Luigi etaient freres ?"
+        android:text="Anecdote du jour : Savais-tu que \anecdote\ ?"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
