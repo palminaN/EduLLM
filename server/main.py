@@ -40,10 +40,6 @@ def login_user(user: schemas.UserLogin, db: Session = Depends(get_db)):
         raise HTTPException(status_code=401, detail="Invalid email or password")
     return db_user
 
-@app.get("/ping")
-def ping():
-    return {"status": "ok"}
-
 
 
 # ======================== Enfant - Fonctions ========================
@@ -190,7 +186,9 @@ def update_child(child_id: int, updates: schemas.UserUpdate, db: Session = Depen
 
 
 
-
+@app.head("/ping")
+def ping():
+    return {"status": "ok"}
 
 if __name__ == "__main__":
     import os
