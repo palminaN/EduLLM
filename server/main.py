@@ -15,7 +15,7 @@ async def handle_404(req : Request, exc : HTTPException):
     return RedirectResponse("/docs")
 
 @app.exception_handler(500)
-async def handle_404(req : Request, exc : HTTPException):
+async def handle_500(req : Request, exc : HTTPException):
     return JSONResponse(status_code=500,content={"error":"Nous n'avous pas reussi a traiter votre requete"})
 
 def get_db():
@@ -38,3 +38,7 @@ def login_user(user: schemas.UserLogin, db: Session = Depends(get_db)):
     if not db_user:
         raise HTTPException(status_code=401, detail="Invalid email or password")
     return db_user
+
+@app.get("/ping")
+def ping():
+    return {"status": "ok"}

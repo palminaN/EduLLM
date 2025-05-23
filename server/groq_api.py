@@ -1,8 +1,11 @@
 # app/groq_api.py
 import requests
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+API_KEY = os.getenv("GROQ_API_KEY")
 GROQ_API_URL = "https://api.groq.com/v1/llm"
-API_KEY = "your_api_key_here"
 
 def query_groq_llm(prompt: str):
     headers = {
