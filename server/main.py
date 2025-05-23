@@ -4,6 +4,7 @@ from fastapi.responses import RedirectResponse, JSONResponse
 from sqlalchemy.orm import Session
 import crud, models, schemas, database, groq_api
 from database import SessionLocal, engine
+from groq_api import query_groq_llm
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -62,47 +63,61 @@ def get_child_badges(child_id: int):
 
 @app.get("/exercise/math")
 def get_math_exercise():
-    return {"question": "Combien font 245 + 387 ?"}
+    question = query_groq_llm("/exercise/math", "Donne une question simple.")
+    return {"question": question}
 
+"""
 @app.post("/exercise/math")
-def check_math_answer(answer: int):
-    return {"correct": answer == 632}
+def check_math_answer(user_answer: str, question: str):
+    full_prompt = f"Question : {question}\nRéponse donnée : {user_answer}\nÉvalue si c'est correct."
+    correction = query_groq_llm("/exercise/math", full_prompt)
+    return {"correction": correction}
+"""
 
 @app.get("/exercise/vocab")
 def get_vocab_exercise():
-    return {"word": "joie", "instruction": "Donne un synonyme"}
+    question = query_groq_llm("/exercise/vocab", "Donne un mot et demande un synonyme.")
+    return {"instruction": question}
 
 @app.post("/exercise/vocab")
-def check_vocab_answer(answer: str):
-    return {"correct": answer.strip().lower() == "bonheur"}
+def check_vocab_answer(answer: str, question: str):
+    prompt = f"Mot demandé : {question}\nRéponse : {answer}\nDis si c'est bon."
+    return {"feedback": query_groq_llm("/exercise/vocab", prompt)}
 
 @app.get("/exercise/grammar")
 def get_grammar_exercise():
-    return {"phrase": "Le chien a mangé le os"}
+    question = query_groq_llm("/exercise/grammar", "Fournis une phrase mal écrite à corriger.")
+    return {"phrase": question}
 
 @app.post("/exercise/grammar")
-def check_grammar_answer(answer: str):
-    return {"correction": answer}
+def check_grammar_answer(answer: str, phrase: str):
+    prompt = f"Phrase initiale : {phrase}\nCorrection proposée : {answer}\nCorrige ou approuve."
+    return {"correction": query_groq_llm("/exercise/grammar", prompt)}
 
 @app.get("/quiz")
 def get_quiz_question():
-    return {
-        "question": "Quelle planète est la plus proche du Soleil ?",
-        "choices": ["Terre", "Mars", "Mercure"]
-    }
+    quiz = query_groq_llm("/quiz", "Génère une question simple avec trois choix.")
+    return {"question": quiz}
 
+"""
 @app.post("/quiz")
-def check_quiz_answer(answer: str):
-    return {"correct": answer.strip().lower() == "mercure"}
+def check_quiz_answer(answer: str, question: str):
+    prompt = f"Question : {question}\nRéponse : {answer}\nEst-ce correct ?"
+    return {"result": query_groq_llm("/quiz", prompt)}
+"""
 
 @app.post("/story/start")
 def generate_story_start(theme: str, character: str):
-    intro = f"Il était une fois {character}, passionné par {theme}..."
-    return {"story": intro}
+    prompt = f"Crée une histoire pour enfant avec {character} dans un monde de {theme}."
+    story = query_groq_llm("/story/start", prompt)
+    return {"story": story}
 
 @app.post("/story/continue")
 def generate_story_continue(previous: str):
-    return {"story": previous + " Et soudain, une nouvelle aventure commence..."}
+    prompt = f"Poursuis cette histoire : {previous}"
+    story = query_groq_llm("/story/continue", prompt)
+    return {"story": story}
+
 
 
 # ======================== Parent - Fonctions ========================
@@ -151,24 +166,26 @@ def create_child_account(child: schemas.UserCreate, db: Session = Depends(get_db
     return new_user
 
 @app.put("/parent/children/{child_id}", response_model=schemas.User)
-def update_child_account(child_id: int, updates: schemas.UserUpdate, db: Session = Depends(get_db)):
+def update_child(child_id: int, updates: schemas.UserUpdate, db: Session = Depends(get_db)):
     user = crud.get_user(db, user_id=child_id)
     if not user or user.is_parent:
         raise HTTPException(status_code=404, detail="Enfant non trouvé")
 
+    update_data = {}
+
     if updates.email:
-        existing_user = crud.get_user_by_email(db, email=updates.email)
-        if existing_user and existing_user.id != child_id:
+        existing = crud.get_user_by_email(db, email=updates.email)
+        if existing and existing.id != child_id:
             raise HTTPException(status_code=400, detail="Cet email est déjà utilisé")
-        user.email = updates.email
+        update_data["email"] = updates.email
 
     if updates.password:
         from auth import get_password_hash
-        user.hashed_password = get_password_hash(updates.password)
+        update_data["hashed_password"] = get_password_hash(updates.password)
 
-    db.commit()
-    db.refresh(user)
+    user = crud.update_user(db, child_id, update_data)
     return user
+
 
 
 
