@@ -3,7 +3,7 @@
 import os
 import requests
 import yaml
-import openai
+from openai import OpenAI
 from dotenv import load_dotenv
 
 # Chargement des variables d'environnement
@@ -11,7 +11,6 @@ load_dotenv()
 API_KEY = os.getenv("GROQ_API_KEY")
 
 # Configuration de l'API Groq via openai
-openai.api_key = API_KEY
 GROQ_API_URL = "https://api.groq.com/openai/v1"  #TODO attention à l'URL exacte selon Groq
 
 # Initialiser le client OpenAI compatible Groq
