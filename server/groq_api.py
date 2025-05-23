@@ -25,7 +25,7 @@ PROMPTS = load_prompts()
 
 
 
-def query_groq_llm(route: str, user_text: str, model="gemma2-9b-it"):
+def query_groq_llm(route: str, user_text: str, model="mixtral-8x7b-32768"):
     prompt_text = PROMPTS.get(route, "")
     messages = [
         {"role": "system", "content": prompt_text},
@@ -33,12 +33,11 @@ def query_groq_llm(route: str, user_text: str, model="gemma2-9b-it"):
     ]
 
     try:
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model=model,
             messages=messages
         )
-        ai_response = response["choices"][0]["message"]["content"]
-        return ai_response
+        return response.choices[0].message.content
     except Exception as e:
-        print(f"Erreur LLM : {e}")
-        return "Erreur lors de la génération de la réponse."
+        print(f"Erreur LLM :\n{e}")
+        return "Erreur lors de l'appel à l'IA."
