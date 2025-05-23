@@ -14,6 +14,12 @@ API_KEY = os.getenv("GROQ_API_KEY")
 openai.api_key = API_KEY
 GROQ_API_URL = "https://api.groq.com/openai/v1"  #TODO attention à l'URL exacte selon Groq
 
+# Initialiser le client OpenAI compatible Groq
+client = OpenAI(
+    api_key=API_KEY,
+    base_url=GROQ_API_URL
+)
+
 # Chargement des prompts
 def load_prompts(file_name="prompts.yaml"):
     execution_dir = os.path.dirname(os.path.abspath(__file__))
