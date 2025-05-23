@@ -30,7 +30,7 @@ PROMPTS = load_prompts()
 
 
 
-def query_groq_llm(route: str, user_text: str, model="mixtral-8x7b-32768"):
+def query_groq_llm(route: str, user_text: str, model="gemma2-9b-it"):
     prompt_text = PROMPTS.get(route, "")
     messages = [
         {"role": "system", "content": prompt_text},
