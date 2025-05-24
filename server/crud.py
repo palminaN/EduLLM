@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 import models, schemas
 from auth import get_password_hash, verify_password
+from typing import Optional
 
 def get_user(db: Session, user_id: int):
     return db.query(models.User).filter(models.User.id == user_id).first()
@@ -8,13 +9,13 @@ def get_user(db: Session, user_id: int):
 def get_user_by_email(db: Session, email: str):
     return db.query(models.User).filter(models.User.email == email).first()
 
-def create_user(db: Session, user: schemas.UserCreate, parent_id: int = None) -> models.User:
-    hashed_password = get_password_hash(user.password)
+def create_user(db: Session, user_data: dict, parent_id: Optional[int] = None):
+    hashed_password = get_password_hash(user_data["password"])
     db_user = models.User(
-        email=user.email,
+        email=user_data["email"],
         hashed_password=hashed_password,
-        is_parent=user.is_parent,
-        parent_id=parent_id 
+        is_parent=user_data.get("is_parent", False),
+        parent_id=parent_id
     )
     db.add(db_user)
     db.commit()

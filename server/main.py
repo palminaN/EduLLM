@@ -33,9 +33,8 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Email already registered")
     
     user_dict = user.dict()
-    user_dict["is_parent"] = True
-
-    new_user = crud.create_user(db=db, user=schemas.UserCreate(**user_dict))
+    user_dict["is_parent"] = True  # Ajout forcé
+    new_user = crud.create_user(db=db, user_data=user_dict)
     return {"id": new_user.id}
 
 @app.post("/login/", response_model=schemas.UserIdOnly)
