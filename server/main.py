@@ -87,7 +87,7 @@ def check_math_answer(user_answer: str, question: str):
     full_prompt = f"Question : {question}\nRéponse donnée : {user_answer}\nÉvalue si c'est correct."
     correction = query_groq_llm("/exercise/math", full_prompt)
     return {"correction": correction}
-"""
+
 
 @app.get("/exercise/vocab")
 def get_vocab_exercise():
@@ -109,6 +109,24 @@ def check_grammar_answer(answer: str, phrase: str):
     prompt = f"Phrase initiale : {phrase}\nCorrection proposée : {answer}\nCorrige ou approuve."
     return {"correction": query_groq_llm("/exercise/grammar", prompt)}
 
+"""
+
+@app.get("/exercise/langue")
+def get_language_exercise():
+    question = query_groq_llm("/exercise/langue", f"Génère un exercice pour enfant. {datetime.now().isoformat()}")
+    return {"instruction": question}
+
+
+@app.post("/exercise/langue")
+def check_language_answer(answer: str, instruction: str):
+    prompt = (
+        f"Exercice : {instruction}\n"
+        f"Réponse proposée : {answer}\n"
+        f"Évalue si la réponse est correcte, claire ou à améliorer, pour un élève de primaire."
+    )
+    feedback = query_groq_llm("/exercise/langue", prompt)
+    return {"feedback": feedback}
+
 @app.get("/quiz")
 def get_quiz_question():
     quiz = query_groq_llm("/quiz", "Génère une question simple avec trois choix.")
@@ -123,14 +141,14 @@ def check_quiz_answer(answer: str, question: str):
 
 @app.post("/story/start")
 def generate_story_start(theme: str, character: str):
-    prompt = f"Crée une histoire pour enfant avec {character} dans un monde de {theme}."
+    prompt = f"Crée une histoire pour enfant de 7 à 11 ans avec le personnage {character} avec pour thème '{theme}'."
     story = query_groq_llm("/story/start", prompt)
     return {"story": story}
 
 @app.post("/story/continue")
 def generate_story_continue(previous: str, theme: str, character: str):
     prompt = (
-        f"Tu racontes une histoire pour enfant dans le thème '{theme}', "
+        f"Tu racontes une histoire dans le thème '{theme}', "
         f"avec le personnage principal '{character}'. Voici le début de l'histoire :\n\n"
         f"{previous}\n\nContinue cette histoire avec le même style et personnage."
     )

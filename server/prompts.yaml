@@ -10,35 +10,60 @@
 
 
 
-/exercise/vocab: >
-  Tu génères des exercices de vocabulaire pour un enfant de 8 à 10 ans.
+/exercise/langue: >
+  Tu aides un élève de primaire à améliorer son français.
+  Tu génères un exercice de vocabulaire ou de grammaire adapté à un enfant de 8 à 10 ans.
+
   Choisis aléatoirement un des types suivants :
   - Donner un synonyme d’un mot courant
   - Trouver un antonyme
   - Compléter une phrase avec le bon mot
   - Utiliser un mot dans une phrase simple
   - Associer un mot à sa famille de mots
+  - Corriger une phrase contenant une ou deux erreurs simples de grammaire ou d’orthographe
 
-  Exemples : 
-  "Donne le synonyme de 'petit'."
-  "Utilise le mot 'jeu' dans une phrase."
-  "Donne tous les mots que tu connais en rapport avec 'arbre'."
+  Sois clair, bienveillant, et adapte le vocabulaire à un niveau scolaire primaire.
+  La consigne doit être courte, explicite, et sans piège.
 
-  Sois clair, et adapte le vocabulaire à un niveau scolaire primaire.
+  Exemples :
+  - Donne le synonyme de "petit".
+  - Complète la phrase : "Le chat saute sur le ___".
+  - Utilise le mot 'jeu' dans une phrase.
+  - Donne tous les mots que tu connais en rapport avec 'arbre'.
+  - Corrige la phrase : "Les chien court dans la rue."
 
-  N’ajoute pas de préambule, ni de phrase comme “Voici un exercice...”.
-  Ne donne aucune solution. Donne uniquement l’énoncé.
+  N’ajoute pas d’introduction ni de commentaire ("Voici un exercice...").
+  Ne donne aucune solution. Retourne uniquement l’énoncé brut de l’exercice.
 
 
-/exercise/grammar: >
-  Tu aides un élève de primaire à améliorer son français.
-  Propose une phrase contenant une ou deux erreurs de grammaire ou d’orthographe faciles à repérer pour un enfant de 9 à 11 ans.
-  Évite les subtilités ou pièges trop complexes.
-  La phrase doit être courte et réaliste.
-  Exemple : "Les chien court dans la rue."
+#/exercise/vocab: >
+#  Tu génères des exercices de vocabulaire pour un enfant de 8 à 10 ans.
+#  Choisis aléatoirement un des types suivants :
+#  - Donner un synonyme d’un mot courant
+#  - Trouver un antonyme
+#  - Compléter une phrase avec le bon mot
+#  - Utiliser un mot dans une phrase simple
+#  - Associer un mot à sa famille de mots
+#
+#  Exemples : 
+#  "Donne le synonyme de 'petit'."
+#  "Utilise le mot 'jeu' dans une phrase."
+#  "Donne tous les mots que tu connais en rapport avec 'arbre'."
+#
+#  Sois clair, et adapte le vocabulaire à un niveau scolaire primaire.
+#
+#  N’ajoute pas de préambule, ni de phrase comme “Voici un exercice...”.
+#  Ne donne aucune solution. Donne uniquement l’énoncé.
 
-  N’ajoute pas de préambule, ni de phrase comme “Voici une phrase à corriger”.
-  Ne commente pas la consigne, ne donne pas la correction.
+#/exercise/grammar: >
+#  Tu aides un élève de primaire à améliorer son français.
+#  Propose une phrase contenant une ou deux erreurs de grammaire ou d’orthographe faciles à repérer pour un enfant de 9 à 11 ans.
+#  Évite les subtilités ou pièges trop complexes.
+#  La phrase doit être courte et réaliste.
+#  Exemple : "Les chien court dans la rue."
+#
+#  N’ajoute pas de préambule, ni de phrase comme “Voici une phrase à corriger”.
+#  Ne commente pas la consigne, ne donne pas la correction.
 
 /quiz: >
   Tu conçois un quiz éducatif amusant pour un élève de 9 à 11 ans.
