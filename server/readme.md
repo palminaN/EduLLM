@@ -2,22 +2,22 @@
 
 ## Installation et lancement
 
-1. Installe les dépendances :
+1. Installer les dépendances :
    ```
    pip install -r requirements.txt
    ```
 
-2. Ajoute ta clé API dans un fichier `.env` situé dans le dossier `server/` :
+2. Ajouter une clé API dans un fichier `.env` :
    ```
-   GROQ_API_KEY=ta_clé_groq_ici
+   GROQ_API_KEY=<your_api_key_here>
    ```
 
-3. Démarre le serveur local :
+3. Démarrer le serveur local :
    ```
    uvicorn main:app --reload
    ```
 
-4. Accède à la documentation interactive :
+4. Accéder à la documentation interactive :
    [http://localhost:8000/docs](http://localhost:8000/docs)
 
 ---
@@ -27,7 +27,7 @@
 ### Authentification
 
 #### POST `/register/`
-Crée un nouvel utilisateur (parent ou enfant).
+Crée un nouvel utilisateur (parent ou enfant). De préférence pour créer un enfant, se référer à la création d'un compte enfant lié au compte parent dans la section Parent
 
 **Body (JSON)** :
 ```json
@@ -59,7 +59,7 @@ Récupère les informations d’un enfant.
 #### GET `/child/{child_id}/badges`
 Renvoie les badges obtenus par l’enfant.
 
-#### POST `/child/{child_id}/badges?parent_id=...`
+#### POST `/child/{child_id}/badges`
 Attribue un nouveau badge à un enfant.
 
 **Body (JSON)** :
@@ -80,7 +80,7 @@ Génère une question de mathématiques simple.
 Génère une question de vocabulaire.
 
 #### POST `/exercise/vocab`
-Vérifie la réponse donnée par l’enfant.
+Vérifie la réponse de vocabulaire donnée par l’enfant.
 
 **Body (JSON)** :
 ```json
@@ -94,7 +94,7 @@ Vérifie la réponse donnée par l’enfant.
 Fournit une phrase à corriger.
 
 #### POST `/exercise/grammar`
-Vérifie la correction proposée.
+Vérifie la correction proposée pour la phrase à corriger.
 
 **Body (JSON)** :
 ```json
@@ -106,10 +106,6 @@ Vérifie la correction proposée.
 
 #### GET `/quiz`
 Génère une question de culture générale à choix multiple.
-
----
-
-### Histoires (LLM)
 
 #### POST `/story/start`
 Génère le début d’une histoire.
@@ -128,6 +124,8 @@ Génère la suite d’une histoire.
 **Body (JSON)** :
 ```json
 {
+  "theme": "espace",
+  "character": "Léo",
   "previous": "Léo entra dans la fusée..."
 }
 ```

@@ -63,14 +63,11 @@ def get_child_badges(child_id: int, db: Session = Depends(get_db)):
 def give_badge_to_child(
     child_id: int,
     badge: schemas.BadgeCreate,
-    parent_id: int,  # vérification facultative
     db: Session = Depends(get_db)
 ):
     user = crud.get_user(db, user_id=child_id)
     if not user or user.is_parent:
         raise HTTPException(status_code=404, detail="Enfant non trouvé")
-    if user.parent_id != parent_id:
-        raise HTTPException(status_code=403, detail="Ce n'est pas votre enfant.")
     return crud.add_badge_to_child(db, child_id=child_id, badge=badge)
 
 
@@ -127,10 +124,15 @@ def generate_story_start(theme: str, character: str):
     return {"story": story}
 
 @app.post("/story/continue")
-def generate_story_continue(previous: str):
-    prompt = f"Poursuis cette histoire : {previous}"
+def generate_story_continue(previous: str, theme: str, character: str):
+    prompt = (
+        f"Tu racontes une histoire pour enfant dans le thème '{theme}', "
+        f"avec le personnage principal '{character}'. Voici le début de l'histoire :\n\n"
+        f"{previous}\n\nContinue cette histoire avec le même style et personnage."
+    )
     story = query_groq_llm("/story/continue", prompt)
     return {"story": story}
+
 
 
 
