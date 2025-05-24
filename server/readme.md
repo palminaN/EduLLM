@@ -27,19 +27,18 @@
 ### Authentification
 
 #### POST `/register/`
-Crée un nouvel utilisateur (parent ou enfant). De préférence pour créer un enfant, se référer à la création d'un compte enfant lié au compte parent dans la section Parent
+Crée un nouvel utilisateur, parent uniquement.
 
 **Body (JSON)** :
 ```json
 {
   "email": "user@example.com",
-  "password": "motdepasse",
-  "is_parent": true
+  "password": "motdepasse"
 }
 ```
 
 #### POST `/login/`
-Authentifie un utilisateur existant.
+Authentifie un utilisateur existant (parent ou enfant).
 
 **Body (JSON)** :
 ```json
@@ -147,8 +146,7 @@ Crée un enfant associé à un parent donné.
 ```json
 {
   "email": "enfant@edu.fr",
-  "password": "1234",
-  "is_parent": false
+  "password": "1234"
 }
 ```
 
