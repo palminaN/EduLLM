@@ -2,8 +2,8 @@ uvicorn
 openai
 fastapi
 sqlalchemy
-pydantic
+pydantic[email]
 python-dotenv
 sqlalchemy
-passlib 
-bcrypt
+passlib[bcrypt]
+requests
