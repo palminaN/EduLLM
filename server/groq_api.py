@@ -3,6 +3,7 @@
 import os
 import requests
 import yaml
+from datetime import datetime
 from openai import OpenAI
 from dotenv import load_dotenv
 
@@ -31,7 +32,7 @@ PROMPTS = load_prompts()
 
 
 def query_groq_llm(route: str, user_text: str, model="gemma2-9b-it"):
-    prompt_text = PROMPTS.get(route, "")
+    prompt_text = f"{PROMPTS.get(route)}\nÉtiquette : {datetime.now().isoformat()}"
     messages = [
         {"role": "system", "content": prompt_text},
         {"role": "user", "content": user_text}
@@ -40,7 +41,8 @@ def query_groq_llm(route: str, user_text: str, model="gemma2-9b-it"):
     try:
         response = client.chat.completions.create(
             model=model,
-            messages=messages
+            messages=messages,
+            temperature=0.8
         )
         return response.choices[0].message.content
     except Exception as e:
