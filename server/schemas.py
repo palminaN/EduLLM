@@ -23,6 +23,9 @@ class UserUpdate(BaseModel):
 
 # Sorties 
 
+class UserIdOnly(BaseModel):
+    id: int
+
 class User(UserBase):
     id: int
     parent_id: Optional[int] = None

@@ -1,8 +1,8 @@
-# app/main.py
 from fastapi import FastAPI, Depends, HTTPException, Request
 from fastapi.responses import RedirectResponse, JSONResponse
 from sqlalchemy.orm import Session
 import crud, models, schemas, database, groq_api
+import re
 from database import SessionLocal, engine
 from groq_api import query_groq_llm
 
@@ -26,23 +26,24 @@ def get_db():
     finally:
         db.close()
 
-@app.post("/register/", response_model=schemas.User)
+@app.post("/register/", response_model=schemas.UserIdOnly)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, email=user.email)
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
-    # Forcer le rôle parent
+    
     user_dict = user.dict()
     user_dict["is_parent"] = True
-    return crud.create_user(db=db, user=schemas.UserCreate(**user_dict))
 
+    new_user = crud.create_user(db=db, user=schemas.UserCreate(**user_dict))
+    return {"id": new_user.id}
 
-@app.post("/login/", response_model=schemas.User)
+@app.post("/login/", response_model=schemas.UserIdOnly)
 def login_user(user: schemas.UserLogin, db: Session = Depends(get_db)):
     db_user = crud.authenticate_user(db, user.email, user.password)
     if not db_user:
         raise HTTPException(status_code=401, detail="Invalid email or password")
-    return db_user
+    return {"id": db_user.id}
 
 
 
@@ -78,8 +79,19 @@ def give_badge_to_child(
 
 @app.get("/exercise/math")
 def get_math_exercise():
-    question = query_groq_llm("/exercise/math", "Donne une question simple.")
-    return {"question": question}
+    question = query_groq_llm("/exercise/math", "Génère une expression mathématique (addition, soustraction ou multiplication).")
+    
+    match = re.search(r"(\d+)\s*([+\-*])\s*(\d+)", question)
+    if not match:
+        raise HTTPException(status_code=400, detail="Question non valide")
+
+    a, op, b = match.groups()
+    try:
+        result = eval(f"{a}{op}{b}")
+    except Exception:
+        raise HTTPException(status_code=500, detail="Erreur de calcul")
+
+    return {"question": question, "answer": result}
 
 """
 @app.post("/exercise/math")
@@ -129,8 +141,32 @@ def check_language_answer(answer: str, instruction: str):
 
 @app.get("/quiz")
 def get_quiz_question():
-    quiz = query_groq_llm("/quiz", "Génère une question simple avec trois choix.")
-    return {"question": quiz}
+    raw = query_groq_llm("/quiz", "Génère une question simple avec trois choix. Format strict.")
+    
+    lines = raw.splitlines()
+    q_line = next((line for line in lines if line.startswith("Question :")), "")
+    a_line = next((line for line in lines if line.startswith("A.")), "")
+    b_line = next((line for line in lines if line.startswith("B.")), "")
+    c_line = next((line for line in lines if line.startswith("C.")), "")
+    r_line = next((line for line in lines if "Réponse correcte" in line), "")
+
+    try:
+        question = q_line.replace("Question :", "").strip()
+        choices = {
+            "A": a_line[2:].strip(),
+            "B": b_line[2:].strip(),
+            "C": c_line[2:].strip(),
+        }
+        correct = r_line.split(":")[1].strip()
+    except Exception:
+        raise HTTPException(status_code=500, detail="Impossible d'analyser la réponse du LLM")
+
+    return {
+        "question": question,
+        "choices": choices,
+        "correct_answer": correct  # "A", "B", ou "C"
+    }
+
 
 """
 @app.post("/quiz")

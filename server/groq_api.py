@@ -1,5 +1,3 @@
-# app/groq_api.py
-
 import os
 import requests
 import yaml

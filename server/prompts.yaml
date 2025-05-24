@@ -69,14 +69,15 @@
   Tu conçois un quiz éducatif amusant pour un élève de 9 à 11 ans.
   Pose une question de culture générale (animaux, nature, sciences, pays, géographie, musique, etc..).
   Propose exactement 3 réponses possibles, dont une seule correcte.
-  Présente le tout clairement, sans mentionner la bonne réponse.
+  Présente le tout clairement, et indique uniquement la bonne réponse à la fin.
   Utilise strictement ce format, sans ajouter de texte :
   Question : ...
   A. ...
   B. ...
   C. ...
+  Réponse correcte : A
 
-  N’ajoute pas d’introduction, de commentaire, ni de réponse.
+  N’ajoute pas d’introduction ou de commentaire.
   Donne uniquement l’énoncé de l’exercice.
 
 /story/start: >
