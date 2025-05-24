@@ -9,9 +9,14 @@ def get_user(db: Session, user_id: int):
 def get_user_by_email(db: Session, email: str):
     return db.query(models.User).filter(models.User.email == email).first()
 
-def create_user(db: Session, user: schemas.UserCreate) -> models.User:
+def create_user(db: Session, user: schemas.UserCreate, parent_id: int = None) -> models.User:
     hashed_password = get_password_hash(user.password)
-    db_user = models.User(email=user.email, hashed_password=hashed_password, is_parent=user.is_parent)
+    db_user = models.User(
+        email=user.email,
+        hashed_password=hashed_password,
+        is_parent=user.is_parent,
+        parent_id=parent_id 
+    )
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -36,3 +41,17 @@ def update_user(db: Session, user_id: int, updates: dict):
     db.commit()
     db.refresh(user)
     return user
+
+
+
+# Badges
+
+def get_badges_for_child(db: Session, child_id: int):
+    return db.query(models.Badge).filter(models.Badge.child_id == child_id).all()
+
+def add_badge_to_child(db: Session, child_id: int, badge: schemas.BadgeCreate):
+    badge_obj = models.Badge(name=badge.name, child_id=child_id)
+    db.add(badge_obj)
+    db.commit()
+    db.refresh(badge_obj)
+    return badge_obj

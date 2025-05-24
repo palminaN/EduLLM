@@ -2,14 +2,15 @@
 from pydantic import BaseModel, EmailStr
 from typing import Optional, List
 
-# ======================== Base commun ========================
+# Base commune
 
 class UserBase(BaseModel):
     email: EmailStr
     is_parent: bool = False
 
 
-# ======================== Entrées ========================
+
+# Entrées 
 
 class UserCreate(UserBase):
     password: str
@@ -24,10 +25,12 @@ class UserUpdate(BaseModel):
     is_parent: Optional[bool] = None
 
 
-# ======================== Sorties ========================
+
+# Sorties 
 
 class User(UserBase):
     id: int
+    parent_id: Optional[int] = None  # <- ici
 
     model_config = {
         "from_attributes": True
@@ -35,7 +38,26 @@ class User(UserBase):
 
 
 
-# ======================== Groupes ========================
+# Badges
 
-class Child(User):  # héritage du schéma User
-    badges: Optional[List[str]] = []
+class Badge(BaseModel):
+    id: int
+    name: str
+
+    model_config = {
+        "from_attributes": True
+    }
+
+class BadgeCreate(BaseModel):
+    name: str
+    
+
+
+# Groupes
+
+class Child(User):  # hérite déjà de parent_id via User
+    badges: Optional[List[Badge]] = []
+
+
+
+

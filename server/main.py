@@ -44,6 +44,7 @@ def login_user(user: schemas.UserLogin, db: Session = Depends(get_db)):
 
 # ======================== Enfant - Fonctions ========================
 
+#TODO : erreur de redirection si id de parent
 @app.get("/child/{child_id}/profile", response_model=schemas.User)
 def get_child_profile(child_id: int, db: Session = Depends(get_db)):
     user = crud.get_user(db, user_id=child_id)
@@ -51,11 +52,28 @@ def get_child_profile(child_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Enfant non trouvé")
     return user
 
+@app.get("/child/{child_id}/badges", response_model=list[schemas.Badge])
+def get_child_badges(child_id: int, db: Session = Depends(get_db)):
+    user = crud.get_user(db, user_id=child_id)
+    if not user or user.is_parent:
+        raise HTTPException(status_code=404, detail="Enfant non trouvé")
+    return crud.get_badges_for_child(db, child_id=child_id)
 
-#TODO faire les logiques de ces routes 
-@app.get("/child/{child_id}/badges")
-def get_child_badges(child_id: int):
-    return {"badges": ["Lecteur", "Math Master", "Explorateur"]}
+@app.post("/child/{child_id}/badges", response_model=schemas.Badge)
+def give_badge_to_child(
+    child_id: int,
+    badge: schemas.BadgeCreate,
+    parent_id: int,  # vérification facultative
+    db: Session = Depends(get_db)
+):
+    user = crud.get_user(db, user_id=child_id)
+    if not user or user.is_parent:
+        raise HTTPException(status_code=404, detail="Enfant non trouvé")
+    if user.parent_id != parent_id:
+        raise HTTPException(status_code=403, detail="Ce n'est pas votre enfant.")
+    return crud.add_badge_to_child(db, child_id=child_id, badge=badge)
+
+
 
 @app.get("/exercise/math")
 def get_math_exercise():
@@ -118,6 +136,7 @@ def generate_story_continue(previous: str):
 
 # ======================== Parent - Fonctions ========================
 
+#TODO : erreur de redirection si id d'enfant
 @app.get("/parent/{parent_id}/profile", response_model=schemas.User)
 def get_parent_profile(parent_id: int, db: Session = Depends(get_db)):
     user = crud.get_user(db, user_id=parent_id)
@@ -130,15 +149,6 @@ def get_all_children(db: Session = Depends(get_db)):
     users = db.query(models.User).filter(models.User.is_parent == False).all()
     return users
 
-@app.put("/parent/children/{child_id}")
-def update_child(child_id: int, new_email: str, db: Session = Depends(get_db)):
-    user = crud.get_user(db, user_id=child_id)
-    if not user or user.is_parent:
-        raise HTTPException(status_code=404, detail="Enfant non trouvé")
-    user.email = new_email
-    db.commit()
-    return {"message": "Compte enfant mis à jour", "email": user.email}
-
 @app.put("/parent/settings")
 def update_parent_settings(user_id: int, new_password: str, db: Session = Depends(get_db)):
     user = crud.get_user(db, user_id=user_id)
@@ -150,7 +160,11 @@ def update_parent_settings(user_id: int, new_password: str, db: Session = Depend
     return {"message": "Mot de passe mis à jour"}
 
 @app.post("/parent/children/", response_model=schemas.User)
-def create_child_account(child: schemas.UserCreate, db: Session = Depends(get_db)):
+def create_child_account(
+    child: schemas.UserCreate,
+    parent_id: int, 
+    db: Session = Depends(get_db)
+):
     if child.is_parent:
         raise HTTPException(status_code=400, detail="Impossible de créer un parent via cette route.")
     
@@ -158,14 +172,26 @@ def create_child_account(child: schemas.UserCreate, db: Session = Depends(get_db
     if db_user:
         raise HTTPException(status_code=400, detail="Email déjà utilisé")
 
-    new_user = crud.create_user(db=db, user=child)
-    return new_user
+    parent = crud.get_user(db, parent_id)
+    if not parent or not parent.is_parent:
+        raise HTTPException(status_code=403, detail="ID parent non valide")
+
+    return crud.create_user(db=db, user=child, parent_id=parent.id)
+
 
 @app.put("/parent/children/{child_id}", response_model=schemas.User)
-def update_child(child_id: int, updates: schemas.UserUpdate, db: Session = Depends(get_db)):
+def update_child(
+    child_id: int,
+    updates: schemas.UserUpdate,
+    parent_id: int, 
+    db: Session = Depends(get_db)
+):
     user = crud.get_user(db, user_id=child_id)
     if not user or user.is_parent:
         raise HTTPException(status_code=404, detail="Enfant non trouvé")
+
+    if user.parent_id != parent_id:
+        raise HTTPException(status_code=403, detail="Vous ne pouvez pas modifier cet enfant.")
 
     update_data = {}
 
@@ -181,6 +207,7 @@ def update_child(child_id: int, updates: schemas.UserUpdate, db: Session = Depen
 
     user = crud.update_user(db, child_id, update_data)
     return user
+
 
 
 
