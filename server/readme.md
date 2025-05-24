@@ -24,10 +24,10 @@
 
 ## API EduLLM – Documentation des routes
 
-### Authentification
+## Authentification
 
-#### POST `/register/`
-Crée un nouvel utilisateur, parent uniquement.
+### POST `/register/`
+Crée un nouvel utilisateur, **parent uniquement**.
 
 **Body (JSON)** :
 ```json
@@ -37,7 +37,7 @@ Crée un nouvel utilisateur, parent uniquement.
 }
 ```
 
-#### POST `/login/`
+### POST `/login/`
 Authentifie un utilisateur existant (parent ou enfant).
 
 **Body (JSON)** :
@@ -50,15 +50,15 @@ Authentifie un utilisateur existant (parent ou enfant).
 
 ---
 
-### Enfant
+## Enfant
 
-#### GET `/child/{child_id}/profile`
+### GET `/child/{child_id}/profile`
 Récupère les informations d’un enfant.
 
-#### GET `/child/{child_id}/badges`
+### GET `/child/{child_id}/badges`
 Renvoie les badges obtenus par l’enfant.
 
-#### POST `/child/{child_id}/badges`
+### POST `/child/{child_id}/badges`
 Attribue un nouveau badge à un enfant.
 
 **Body (JSON)** :
@@ -70,43 +70,58 @@ Attribue un nouveau badge à un enfant.
 
 ---
 
-### Exercices interactifs (LLM)
+## Exercices interactifs (LLM)
 
-#### GET `/exercise/math`
-Génère une question de mathématiques simple.
+### GET `/exercise/math`
+Génère une question de mathématiques simple (addition, soustraction, multiplication).
 
-#### GET `/exercise/vocab`
-Génère une question de vocabulaire.
+**Réponse :**
+```json
+{
+  "question": "345 x 7",
+  "answer": 2415
+}
+```
 
-#### POST `/exercise/vocab`
-Vérifie la réponse de vocabulaire donnée par l’enfant.
+### GET `/exercise/langue`
+Génère un exercice de français (vocabulaire ou grammaire) adapté à un enfant.
+
+### POST `/exercise/langue`
+Vérifie la réponse proposée à un exercice de français.
 
 **Body (JSON)** :
 ```json
 {
-  "question": "Quel est un synonyme de 'joie' ?",
-  "answer": "bonheur"
+  "instruction": "Corrige la phrase : Le chien mangeais des croquettes.",
+  "answer": "Le chien mangeait des croquettes."
 }
 ```
 
-#### GET `/exercise/grammar`
-Fournit une phrase à corriger.
+---
 
-#### POST `/exercise/grammar`
-Vérifie la correction proposée pour la phrase à corriger.
+## Quiz
 
-**Body (JSON)** :
-```json
-{
-  "phrase": "Le chien a manger de la soupe",
-  "answer": "Le chien a mangé de la soupe"
-}
-```
-
-#### GET `/quiz`
+### GET `/quiz`
 Génère une question de culture générale à choix multiple.
 
-#### POST `/story/start`
+**Réponse :**
+```json
+{
+  "question": "Quelle est la capitale de la France ?",
+  "choices": {
+    "A": "Paris",
+    "B": "Lyon",
+    "C": "Marseille"
+  },
+  "correct_answer": "A"
+}
+```
+
+---
+
+## Histoires (LLM)
+
+### POST `/story/start`
 Génère le début d’une histoire.
 
 **Body (JSON)** :
@@ -117,7 +132,7 @@ Génère le début d’une histoire.
 }
 ```
 
-#### POST `/story/continue`
+### POST `/story/continue`
 Génère la suite d’une histoire.
 
 **Body (JSON)** :
@@ -131,15 +146,15 @@ Génère la suite d’une histoire.
 
 ---
 
-### Parent
+## Parent
 
-#### GET `/parent/{parent_id}/profile`
+### GET `/parent/{parent_id}/profile`
 Récupère les informations d’un parent.
 
-#### GET `/parent/children`
+### GET `/parent/children`
 Renvoie la liste de tous les enfants (non filtrée par parent).
 
-#### POST `/parent/children/?parent_id=...`
+### POST `/parent/children/?parent_id=...`
 Crée un enfant associé à un parent donné.
 
 **Body (JSON)** :
@@ -150,7 +165,7 @@ Crée un enfant associé à un parent donné.
 }
 ```
 
-#### PUT `/parent/children/{child_id}?parent_id=...`
+### PUT `/parent/children/{child_id}?parent_id=...`
 Met à jour le compte d’un enfant (email, mot de passe).
 
 **Body (JSON)** :
@@ -161,7 +176,7 @@ Met à jour le compte d’un enfant (email, mot de passe).
 }
 ```
 
-#### PUT `/parent/settings?user_id=...`
+### PUT `/parent/settings?user_id=...`
 Modifie le mot de passe d’un parent.
 
 **Body (JSON)** :
@@ -173,7 +188,7 @@ Modifie le mot de passe d’un parent.
 
 ---
 
-### Utilitaire
+## Autres
 
-#### HEAD `/ping`
-Permet de vérifier que l’API est en ligne (utile pour Render ou outils de monitoring).
+### HEAD `/ping`
+Permet de vérifier que le serveur est actif (utile pour Render ou du monitoring).

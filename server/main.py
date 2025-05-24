@@ -79,12 +79,14 @@ def give_badge_to_child(
 @app.get("/exercise/math")
 def get_math_exercise():
     question = query_groq_llm("/exercise/math", "Génère une expression mathématique (addition, soustraction ou multiplication).")
-    
-    match = re.search(r"(\d+)\s*([+\-*])\s*(\d+)", question)
+    #print(f"Question générée : {question}")
+    match = re.search(r"(\d+)\s*([+\-*x×])\s*(\d+)", question, re.IGNORECASE)
     if not match:
         raise HTTPException(status_code=400, detail="Question non valide")
 
     a, op, b = match.groups()
+    op = '*' if op in ['x', '×'] else op
+
     try:
         result = eval(f"{a}{op}{b}")
     except Exception:
