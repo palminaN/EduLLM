@@ -124,7 +124,7 @@ def check_grammar_answer(answer: str, phrase: str):
 
 @app.get("/exercise/langue")
 def get_language_exercise():
-    question = query_groq_llm("/exercise/langue", f"Génère un exercice pour enfant. {datetime.now().isoformat()}")
+    question = query_groq_llm("/exercise/langue", f"Génère un exercice pour enfant.")
     return {"instruction": question}
 
 

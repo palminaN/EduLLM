@@ -42,7 +42,10 @@ def query_groq_llm(route: str, user_text: str, model="gemma2-9b-it"):
             messages=messages,
             temperature=0.8
         )
-        return response.choices[0].message.content
+
+        answer = response.choices[0].message.content
+        print(answer)
+        return answer
     except Exception as e:
         print(f"Erreur LLM :\n{e}")
         return "Erreur lors de l'appel à l'IA."
