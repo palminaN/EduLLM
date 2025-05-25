@@ -86,6 +86,19 @@
         android:label="Home"
         tools:layout="@layout/fragment_culture" >
 
+        <action app:destination="@id/resultats" android:id="@+id/culture_to_resultats" ></action>
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/resultats"
+        android:name="com.example.edullm.Fragments.FragmentResults"
+        android:label="Resultats des exercices"
+        tools:layout="@layout/fragment_resultats" >
+
+        <action android:id="@+id/resultats_to_home_enfant" app:destination="@id/home_enfant"></action>
+
 
     </fragment>
 

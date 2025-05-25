@@ -23,18 +23,18 @@
         android:id="@+id/tvVocabFeedback"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:text="Bien joué !"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="108dp"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toBottomOf="@id/tvVocabPrompt" />
 
     <TextView
         android:id="@+id/tvVocabPrompt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="112dp"
+        android:layout_marginTop="52dp"
         android:text="Placeholder resultats"
         android:textAlignment="center"
         android:textSize="16sp"
@@ -47,13 +47,13 @@
         android:id="@+id/btnNextVocab"
         android:layout_width="180dp"
         android:layout_height="48dp"
-        android:layout_marginTop="148dp"
+        android:layout_marginTop="112dp"
         android:backgroundTint="#008C00"
         android:text="Retour au menu"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvVocabFeedback" />
 
