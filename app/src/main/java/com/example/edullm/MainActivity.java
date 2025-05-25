@@ -6,44 +6,26 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.example.edullm.ViewModels.UserViewModel;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    Boolean connected;
-    Retrofit retrofit;
-
-    EduAPI apiService;
+    private UserViewModel userViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setConnected(false);
+
         setContentView(R.layout.main_layout);
-        retrofit = new Retrofit.Builder()
-                .baseUrl("https://edullm.onrender.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        apiService = retrofit.create(EduAPI.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
     }
 
 
 
-    public Boolean isConnected() {
-        return connected;
-    }
 
-
-    public void setConnected(Boolean state){
-
-        this.connected = state;
-
-    }
-
-
-    public EduAPI getApiService() {
-        return apiService;
-    }
 }
