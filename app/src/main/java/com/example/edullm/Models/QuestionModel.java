@@ -1,6 +1,6 @@
 package com.example.edullm.Models;
 
-public class Question {
+public class QuestionModel {
 
     public String question;
 
