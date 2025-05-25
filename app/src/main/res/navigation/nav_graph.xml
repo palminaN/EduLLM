@@ -70,8 +70,23 @@
         android:label="Stories Home"
         tools:layout="@layout/fragment_histoire_setup" >
 
+        <action android:id="@+id/histoire_setup_to_histoire"
+            app:destination="@id/histoire"></action>
+
 
     </fragment>
+
+
+    <fragment
+        android:id="@+id/histoire"
+        android:name="com.example.edullm.Fragments.FragmentHistoire"
+        android:label="Histoires pour enfants"
+        tools:layout="@layout/fragment_histoire" >
+        <action
+            android:id="@+id/action_histoire_to_home_enfant"
+            app:destination="@id/home_enfant" />
+    </fragment>
+
 
     <fragment
         android:id="@+id/grammaire"

@@ -9,12 +9,8 @@ import com.example.edullm.Models.ParentProfile;
 import com.example.edullm.Models.QuizExercise;
 import com.example.edullm.Models.StateModel;
 import com.example.edullm.Models.RegisterLoginRequest;
-import com.example.edullm.Models.StoryContinueRequest;
 import com.example.edullm.Models.StorySession;
-import com.example.edullm.Models.StoryStartRequest;
 import com.example.edullm.Models.UserID;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -22,6 +18,7 @@ import retrofit2.http.GET;
 import retrofit2.http.HEAD;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface EduAPI {
 
@@ -40,21 +37,25 @@ public interface EduAPI {
     Call<ParentProfile> getParentProfile(@Path("parent_id") long parentId);
 
     @GET("exercice/math")
-    Call<List<MathExercise>> getMathExercises();
+    Call<MathExercise> getMathExercises();
 
     @GET("exercice/langue")
-    Call<List<LangueExercise>> getLangueExercises();
+    Call<LangueExercise> getLangueExercises();
 
     @POST("exercice/langue")
     Call<LangueExerciseResult> submitLangueExercise(@Body LangueExerciseSubmission submission);
 
     @POST("story/start")
-    Call<StorySession> startStory(@Body StoryStartRequest request);
+    Call<StorySession> startStory(@Query("theme") String theme,
+                                  @Query("character") String character);
 
     @POST("story/continue")
-    Call<StorySession> continueStory(@Body StoryContinueRequest request);
+    Call<StorySession> continueStory(@Query("theme") String theme,
+                                     @Query("character") String character,
+                                     @Query("previous") String previous
+    );
 
-    @GET("exercice/quiz")
-    Call<List<QuizExercise>> getQuizExercises();
+    @GET("quiz")
+    Call<QuizExercise> getQuizExercise();
 
 }
