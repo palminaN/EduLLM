@@ -119,7 +119,6 @@
         android:layout_marginEnd="32dp"
         android:hint="Nom d'utilisateur"
         android:inputType="text"
-        android:text="Antonin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/user_type_group" />
@@ -130,6 +129,7 @@
         android:layout_height="wrap_content"
         android:text="Nom d'utilisateur incorrect"
         android:textColor="#FF0000"
+        android:visibility="gone"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@id/username"
         app:layout_constraintTop_toBottomOf="@id/username" />
@@ -141,7 +141,6 @@
         android:layout_marginTop="16dp"
         android:hint="Mot de passe"
         android:inputType="textPassword"
-        android:text="password"
         app:layout_constraintEnd_toEndOf="@id/username"
         app:layout_constraintStart_toStartOf="@id/username"
         app:layout_constraintTop_toBottomOf="@id/username_error" />
@@ -151,6 +150,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Mot de passe incorrect"
+        android:visibility="gone"
         android:textColor="#FF0000"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@id/password"

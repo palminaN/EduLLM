@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@null"
+    android:gravity="center_horizontal"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvAppName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EduLLM"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginTop="32dp"/>
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Profil Parent"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/tvWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bienvenue Amélie !"
+        android:textSize="18sp"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/btnManageParentAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gestion compte Parent"
+        android:backgroundTint="#4E3473"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="24dp"
+        android:padding="12dp"/>
+
+    <Button
+        android:id="@+id/btnManageChildAccounts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gestion comptes Enfant"
+        android:backgroundTint="#4E3473"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="16dp"
+        android:padding="12dp"/>
+
+</LinearLayout>

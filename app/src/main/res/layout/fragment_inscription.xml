@@ -21,32 +21,8 @@ android:textColor="#000000"
 app:layout_constraintStart_toStartOf="parent"
 app:layout_constraintEnd_toEndOf="parent"
 android:layout_marginTop="24dp"
-    tools:ignore="MissingConstraints" />
+tools:ignore="MissingConstraints" />
 
-    <!-- Username Field -->
-<EditText
-android:id="@+id/username"
-android:layout_width="0dp"
-android:layout_height="wrap_content"
-android:hint="Nom d’utilisateur"
-android:text="Antonin"
-    android:backgroundTint="@android:color/darker_gray"
-    android:padding="12dp"
-    android:textColorHint="#999999"
-    app:layout_constraintTop_toBottomOf="@id/signup_title"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    android:layout_marginTop="16dp"/>
-
-<TextView
-android:id="@+id/username_error"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="Nom d’utilisateur déjà utilisé"
-android:textColor="#FF0000"
-android:textSize="12sp"
-app:layout_constraintTop_toBottomOf="@id/username"
-app:layout_constraintStart_toStartOf="@id/username"/>
 
     <!-- Email Field -->
 <EditText
@@ -54,20 +30,20 @@ android:id="@+id/email"
 android:layout_width="0dp"
 android:layout_height="wrap_content"
 android:hint="E-mail"
-android:text="Antonin@gmail.com"
 android:backgroundTint="@android:color/darker_gray"
 android:padding="12dp"
 android:inputType="textEmailAddress"
-app:layout_constraintTop_toBottomOf="@id/username_error"
+app:layout_constraintTop_toBottomOf="@id/signup_title"
 app:layout_constraintStart_toStartOf="parent"
 app:layout_constraintEnd_toEndOf="parent"
-android:layout_marginTop="12dp"/>
+android:layout_marginTop="16dp"/>
 
 <TextView
 android:id="@+id/email_error"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="E-mail invalide"
+    android:visibility="gone"
 android:textColor="#FF0000"
 android:textSize="12sp"
 app:layout_constraintTop_toBottomOf="@id/email"
@@ -79,7 +55,6 @@ android:id="@+id/password"
 android:layout_width="0dp"
 android:layout_height="wrap_content"
 android:hint="Mot de passe"
-android:text="password"
 android:inputType="textPassword"
 android:padding="12dp"
 android:backgroundTint="@android:color/darker_gray"
@@ -94,7 +69,6 @@ android:id="@+id/confirm_password"
 android:layout_width="0dp"
 android:layout_height="wrap_content"
 android:hint="Répéter le mot de passe"
-android:text="password"
 android:inputType="textPassword"
 android:padding="12dp"
 android:backgroundTint="@android:color/darker_gray"
@@ -110,6 +84,7 @@ android:layout_height="wrap_content"
 android:text="Les deux mots de passe ne correspondent pas"
 android:textColor="#FF0000"
 android:textSize="12sp"
+    android:visibility="gone"
 app:layout_constraintTop_toBottomOf="@id/confirm_password"
 app:layout_constraintStart_toStartOf="@id/confirm_password"/>
 
