@@ -26,7 +26,7 @@ def get_db():
     finally:
         db.close()
 
-@app.post("/register/", response_model=schemas.UserPublic)
+@app.post("/register/", response_model=schemas.UserAll)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, email=user.email)
     if db_user:
@@ -39,7 +39,7 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     return new_user
 
 
-@app.post("/login/", response_model=schemas.UserPublic)
+@app.post("/login/", response_model=schemas.UserAll)
 def login_user(user: schemas.UserLogin, db: Session = Depends(get_db)):
     db_user = crud.authenticate_user(db, user.email, user.password)
     if not db_user:
