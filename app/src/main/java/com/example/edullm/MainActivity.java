@@ -16,6 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     private UserViewModel userViewModel;
+    public static String APIbaseUrl = "https://edullm.onrender.com/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
