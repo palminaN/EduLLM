@@ -26,23 +26,29 @@ def get_db():
     finally:
         db.close()
 
-@app.post("/register/", response_model=schemas.UserIdOnly)
+@app.post("/register/", response_model=schemas.UserPublic)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, email=user.email)
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
     
     user_dict = user.dict()
-    user_dict["is_parent"] = True  # Ajout forcé
+    user_dict["is_parent"] = True
     new_user = crud.create_user(db=db, user_data=user_dict)
-    return {"id": new_user.id}
+    new_user.parent_id = -1  # ← convention si c’est un parent
+    return new_user
 
-@app.post("/login/", response_model=schemas.UserIdOnly)
+
+@app.post("/login/", response_model=schemas.UserPublic)
 def login_user(user: schemas.UserLogin, db: Session = Depends(get_db)):
     db_user = crud.authenticate_user(db, user.email, user.password)
     if not db_user:
         raise HTTPException(status_code=401, detail="Invalid email or password")
-    return {"id": db_user.id}
+
+    if db_user.is_parent:
+        db_user.parent_id = -1  # ← même convention
+    return db_user
+
 
 
 

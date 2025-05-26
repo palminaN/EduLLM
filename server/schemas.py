@@ -26,6 +26,16 @@ class UserUpdate(BaseModel):
 class UserIdOnly(BaseModel):
     id: int
 
+class UserAll(BaseModel):
+    id: int
+    email: EmailStr
+    is_parent: bool
+    parent_id: Optional[int]
+
+    model_config = {
+        "from_attributes": True
+    }
+
 class User(UserBase):
     id: int
     parent_id: Optional[int] = None
