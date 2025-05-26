@@ -60,8 +60,9 @@ public class FragmentHistoire extends Fragment {
 
 
         histoireViewModel.getCurrentStorySession().observe(getViewLifecycleOwner(),storySession -> {
+            btnContinuer.setEnabled(false);
 
-            String[] storyNew = storySession.getStory().split(" ");
+            String[] storyNew = storySession.getStory().replace("\n"," ").split(" ");
             int length = storyNew.length;
 
             Handler handler = new Handler();
@@ -76,6 +77,8 @@ public class FragmentHistoire extends Fragment {
 
                     if(i < length) {
                         handler.postDelayed(this,150);
+                    } else {
+                        btnContinuer.setEnabled(true);
                     }
 
 
@@ -96,6 +99,7 @@ public class FragmentHistoire extends Fragment {
         btnContinuer.setOnClickListener(v -> {
 
             histoireViewModel.continueStory(theme,hero,storyMemory);
+            btnContinuer.setEnabled(false);
 
         });
 
