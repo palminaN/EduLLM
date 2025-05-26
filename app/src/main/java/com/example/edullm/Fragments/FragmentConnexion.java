@@ -2,40 +2,31 @@ package com.example.edullm.Fragments;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import com.example.edullm.EduAPI;
 import com.example.edullm.MainActivity;
-import com.example.edullm.Models.StateModel;
-import com.example.edullm.Models.User;
+import com.example.edullm.Models.RegisterLoginRequest;
 import com.example.edullm.R;
+import com.example.edullm.ViewModels.UserViewModel;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+public class FragmentConnexion extends Fragment {
 
-public class ConnexionFragment extends Fragment {
+    public boolean isParentRadio = true;
+    private UserViewModel userViewModel;
 
-
-    public boolean isParent = true;
-
-    public ConnexionFragment() {
-        super(R.layout.activity_connexion);
+    public FragmentConnexion() {
+        super(R.layout.fragment_connexion);
     }
 
 
@@ -43,12 +34,39 @@ public class ConnexionFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+
+
+
+
+
         MainActivity activity = (MainActivity) getActivity();
-        if (activity != null) {
-            System.out.println(activity.isConnected());
-        } else {
+        if (activity == null){
             System.out.println("Activity is null");
         }
+
+        userViewModel.getUser().observe(getViewLifecycleOwner(),user -> {
+            if(userViewModel.getUser().getValue() == null) {
+                Log.d("ERROR","NO USER");
+                return;
+            }
+
+            NavController navController = Navigation.findNavController(view);
+
+
+
+            if(userViewModel.getUser().getValue().is_parent) {
+                // userViewModel.
+                Log.d("Parent", "Is a Parent");
+                //
+                navController.navigate(R.id.connexion_to_home_parent);
+            } else {
+                //
+                navController.navigate(R.id.connexion_to_home_enfant);
+                Log.d("Parent", "Is NOT a Parent");
+
+            }
+        });
 
         RadioGroup userTypeGroup = view.findViewById(R.id.user_type_group);
         EditText username = view.findViewById(R.id.username);
@@ -58,9 +76,16 @@ public class ConnexionFragment extends Fragment {
         TextView forgotPassword = view.findViewById(R.id.forgot_password);
         TextView registerPrompt = view.findViewById(R.id.register_prompt);
 
+        registerPrompt.setOnClickListener(v -> {
+
+            NavController navController = Navigation.findNavController(v);
+            navController.navigate(R.id.action_connexion_to_inscription_parent);
+
+        });
+
         userTypeGroup.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.radio0) { // Parent selected
-                this.isParent = true;
+                this.isParentRadio = true;
                 username.setHint("Nom d'utilisateur");
                 password.setHint("Mot de passe");
                 username.setText("");
@@ -71,7 +96,7 @@ public class ConnexionFragment extends Fragment {
                 forgotPassword.setVisibility(View.VISIBLE);
                 registerPrompt.setVisibility(View.VISIBLE);
             } else if (checkedId == R.id.radio1) { // Enfant selected
-                this.isParent = false;
+                this.isParentRadio = false;
                 username.setHint("Nom de l'enfant");
                 password.setHint("Code secret");
                 username.setText("");
@@ -89,58 +114,32 @@ public class ConnexionFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                User user = getUser();
 
-                NavController navController = Navigation.findNavController(view);
-
-                if(isParent) {
-
-                    Log.d("Parent", "Is a Parent");
-                    //
-                    navController.navigate(R.id.connexion_to_home_parent);
-                } else {
-                    //
+                String mail = username.getText().toString().trim();
+                String pw = password.getText().toString().trim();
+                if(!isParentRadio) {
+                    NavController navController = Navigation.findNavController(v);
                     navController.navigate(R.id.connexion_to_home_enfant);
-                    Log.d("Parent", "Is NOT a Parent");
-
-                }
-
-            }
-        });
-
-
-
-
-    }
-
-
-
-
-    public User getUser() {
-        MainActivity activity = (MainActivity) getActivity();
-        Call<StateModel> call = activity.getApiService().ping();
-        call.enqueue(new Callback<StateModel>() {
-            @Override
-            public void onResponse(Call<StateModel> call, Response<StateModel> response) {
-
-                if(response.body() == null) {
-                    // ERROR WITH API
                     return;
                 }
 
-                StateModel sm =response.body();
-                Log.d("Test response", sm.getStatus());
-            }
 
-            @Override
-            public void onFailure(Call<StateModel> call, Throwable t) {
-                Log.d("Test response","Echec appel API");
+                userViewModel.login(new RegisterLoginRequest(mail,pw));
+
+
+
             }
         });
 
 
-        return null;
+
+
     }
+
+
+
+
+
 
 
     }
