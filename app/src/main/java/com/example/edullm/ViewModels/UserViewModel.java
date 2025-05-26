@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.edullm.EduAPI;
 import com.example.edullm.Models.RegisterLoginRequest;
-import com.example.edullm.Models.UserID;
+import com.example.edullm.Models.User;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,7 +20,7 @@ public class UserViewModel extends ViewModel {
     private MutableLiveData<Boolean> logged_in = new MutableLiveData<>();
     private EduAPI apiService;
 
-    private MutableLiveData<UserID> uid = new MutableLiveData<>();
+    private MutableLiveData<User> user = new MutableLiveData<>();
 
     public static String baseUrl = "https://edullm.onrender.com/";
 
@@ -36,14 +36,17 @@ public class UserViewModel extends ViewModel {
         return logged_in;
     }
 
-    public void register(RegisterLoginRequest user) {
-        Call<UserID> call = apiService.createUser(user);
-        call.enqueue(new Callback<UserID>() {
+
+    public LiveData<User> getUser() {return user;}
+
+    public void register(RegisterLoginRequest u) {
+        Call<User> call = apiService.createUser(u);
+        call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<UserID> call, Response<UserID> response) {
+            public void onResponse(Call<User> call, Response<User> response) {
                 Log.d("APICALL", String.valueOf(response));
                 if (response.isSuccessful() && response.body() != null) {
-                    uid.postValue(response.body());
+                    user.postValue(response.body());
                     logged_in.postValue(true);
                 } else {
                     logged_in.postValue(false);
@@ -51,27 +54,23 @@ public class UserViewModel extends ViewModel {
             }
 
             @Override
-            public void onFailure(Call<UserID> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 logged_in.postValue(false);
             }
         });
     }
 
 
-    public void getParent() {
-
-    }
-
 
     public RegisterLoginRequest login(RegisterLoginRequest u) {
 
-        Call<UserID> call = apiService.connect(u);
-        call.enqueue(new Callback<UserID>() {
+        Call<User> call = apiService.connect(u);
+        call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<UserID> call, Response<UserID> response) {
+            public void onResponse(Call<User> call, Response<User> response) {
                 Log.d("APICALL", String.valueOf(response));
                 if (response.isSuccessful() && response.body() != null) {
-                    uid.postValue(response.body());
+                    user.postValue(response.body());
                     logged_in.postValue(true);
                 } else {
                     logged_in.postValue(false);
@@ -79,7 +78,7 @@ public class UserViewModel extends ViewModel {
             }
 
             @Override
-            public void onFailure(Call<UserID> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 logged_in.postValue(false);
             }
         });
@@ -87,4 +86,11 @@ public class UserViewModel extends ViewModel {
         return null;
 
     }
+
+    public  void logout() {
+        user.postValue(null);
+        logged_in.postValue(false);
+    }
+
+
 }
