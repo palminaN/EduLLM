@@ -35,7 +35,7 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     user_dict = user.dict()
     user_dict["is_parent"] = True
     new_user = crud.create_user(db=db, user_data=user_dict)
-    new_user.parent_id = -1  # ← convention si c’est un parent
+    new_user.parent_id = -1  # convention si c’est un parent
     return new_user
 
 
@@ -46,7 +46,7 @@ def login_user(user: schemas.UserLogin, db: Session = Depends(get_db)):
         raise HTTPException(status_code=401, detail="Invalid email or password")
 
     if db_user.is_parent:
-        db_user.parent_id = -1  # ← même convention
+        db_user.parent_id = -1  # même convention
     return db_user
 
 
@@ -226,15 +226,12 @@ def update_parent_settings(user_id: int, new_password: str, db: Session = Depend
     db.commit()
     return {"message": "Mot de passe mis à jour"}
 
-@app.post("/parent/children/", response_model=schemas.User)
+@app.post("/parent/children", response_model=schemas.UserAll)
 def create_child_account(
     child: schemas.UserCreate,
-    parent_id: int, 
+    parent_id: int,
     db: Session = Depends(get_db)
 ):
-    if child.is_parent:
-        raise HTTPException(status_code=400, detail="Impossible de créer un parent via cette route.")
-    
     db_user = crud.get_user_by_email(db, email=child.email)
     if db_user:
         raise HTTPException(status_code=400, detail="Email déjà utilisé")
@@ -243,8 +240,12 @@ def create_child_account(
     if not parent or not parent.is_parent:
         raise HTTPException(status_code=403, detail="ID parent non valide")
 
-    return crud.create_user(db=db, user=child, parent_id=parent.id)
+    # Forcer le rôle enfant dans les données
+    user_data = child.dict()
+    user_data["is_parent"] = False
 
+    new_child = crud.create_user(db=db, user_data=user_data, parent_id=parent.id)
+    return new_child
 
 @app.put("/parent/children/{child_id}", response_model=schemas.User)
 def update_child(
