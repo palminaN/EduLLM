@@ -56,16 +56,28 @@
         <action
             android:id="@+id/home_parent_to_gestion_enfants"
             app:destination="@id/gestion_enfants" />
+        <action
+            android:id="@+id/action_home_parent_to_change_pwd"
+            app:destination="@id/change_pwd" />
     </fragment>
 
     <fragment
         android:id="@+id/gestion_enfants"
         android:name="com.example.edullm.Fragments.FragmentGestionEnfants"
         android:label="Gestion des comptes enfants"
-        tools:layout="@layout/fragment_parent_settings" >
+        tools:layout="@layout/fragment_parent_gestion_enfants"
+        >
+
+        <action android:id="@+id/gestion_enfants_to_inscription_enfant" app:destination="@id/inscription_enfant"></action>
+        <action
+            android:id="@+id/action_gestion_enfants_to_change_pwd"
+            app:destination="@id/change_pwd" />
 
 
     </fragment>
+
+
+
 
     <fragment
         android:id="@+id/maths"
@@ -163,6 +175,27 @@
         <action android:id="@+id/inscription_parent_to_connexion" app:destination="@id/connexion"></action>
 
 
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/inscription_enfant"
+        android:name="com.example.edullm.Fragments.FragmentInscriptionEnfant"
+        android:label="Home"
+        tools:layout="@layout/fragment_ajouter_enfant" >
+
+        <action android:id="@+id/inscription_enfant_to_profil_parent" app:destination="@id/home_parent"></action>
+
+
+    </fragment>
+
+
+    <fragment android:id="@+id/change_pwd" android:name="com.example.edullm.Fragments.FragmentChangerMdp" android:label="Changer Mot de passe " tools:layout="@layout/fragment_change_password">
+
+
+        <action
+            android:id="@+id/action_change_pwd_to_home_parent"
+            app:destination="@id/home_parent" />
     </fragment>
 
 
