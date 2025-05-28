@@ -45,17 +45,18 @@
 
         <!-- Options List -->
         <TextView
+            android:id="@+id/modif_pw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Modifier le nom ou le mot de passe"
             android:drawableStart="@android:drawable/ic_menu_edit"
             android:drawablePadding="8dp"
-            android:paddingVertical="8dp"/>
+            android:paddingVertical="8dp"
+            android:text="Modifier le nom ou le mot de passe" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Gérer les thèmes autorisés"
+            android:text="Gérer les thèmes interdits"
             android:drawableStart="@android:drawable/ic_menu_manage"
             android:drawablePadding="8dp"
             android:paddingVertical="8dp"/>
