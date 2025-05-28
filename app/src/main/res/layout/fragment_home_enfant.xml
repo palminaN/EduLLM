@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,52 +7,52 @@
     android:background="@null"
     android:padding="16dp">
 
+
     <!-- XP + Avatar -->
-    <LinearLayout
-        android:id="@+id/topBar"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/tv_bienvenue"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+        android:layout_marginTop="52dp"
+        android:gravity="center_horizontal|center_vertical"
         android:orientation="horizontal"
+        android:text="Bienvenue !"
+        android:textSize="23dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/xpLevel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:text="0XP : LEVEL 1"
-            android:textSize="12sp"
-            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="A quoi joue-t-on aujourd'hui ?"
-            android:textSize="16sp" />
-    </LinearLayout>
 
+
+    <TextView
+        android:id="@+id/message_jeux"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="À quoi joue-t-on aujourd'hui ?"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/tv_bienvenue"
+        />
 
     <LinearLayout
         android:id="@+id/buttonContainer"
         android:layout_width="378dp"
-        android:layout_height="323dp"
-        android:layout_marginTop="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topBar">
+        app:layout_constraintTop_toBottomOf="@id/message_jeux">
 
         <Button
             android:id="@+id/btnCulture"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="20dp"
             android:backgroundTint="#FF6F00"
             android:text="Culture Generale"
             android:textColor="#FFFFFF" />
@@ -62,7 +61,7 @@
             android:id="@+id/btnHistoires"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="20dp"
             android:backgroundTint="#2E7D32"
             android:text="Histoires Interactives"
             android:textColor="#FFFFFF" />
@@ -71,7 +70,7 @@
             android:id="@+id/btnGrammaire"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="20dp"
             android:backgroundTint="#3F51B5"
             android:text="Grammaire"
             android:textColor="#FFFFFF" />
@@ -80,21 +79,26 @@
             android:id="@+id/btnMaths"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="20dp"
             android:backgroundTint="#A94036"
             android:text="Mathematiques"
             android:textColor="#FFFFFF" />
-    </LinearLayout>
 
-    <TextView
-        android:id="@+id/funFact"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Anecdote du jour : Savais-tu que \anecdote\ ?"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="16dp"/>
+        android:gravity="center">
+        <Button
+            android:id="@+id/btnLogOutEnfant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#4E3473"
+            android:text="Se deconnecter"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+        
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
