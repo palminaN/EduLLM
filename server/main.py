@@ -100,36 +100,6 @@ def get_math_exercise():
 
     return {"question": question, "answer": result}
 
-"""
-@app.post("/exercise/math")
-def check_math_answer(user_answer: str, question: str):
-    full_prompt = f"Question : {question}\nRéponse donnée : {user_answer}\nÉvalue si c'est correct."
-    correction = query_groq_llm("/exercise/math", full_prompt)
-    return {"correction": correction}
-
-
-@app.get("/exercise/vocab")
-def get_vocab_exercise():
-    question = query_groq_llm("/exercise/vocab", "Donne un mot et demande un synonyme.")
-    return {"instruction": question}
-
-@app.post("/exercise/vocab")
-def check_vocab_answer(answer: str, question: str):
-    prompt = f"Mot demandé : {question}\nRéponse : {answer}\nDis si c'est bon."
-    return {"feedback": query_groq_llm("/exercise/vocab", prompt)}
-
-@app.get("/exercise/grammar")
-def get_grammar_exercise():
-    question = query_groq_llm("/exercise/grammar", "Fournis une phrase mal écrite à corriger.")
-    return {"phrase": question}
-
-@app.post("/exercise/grammar")
-def check_grammar_answer(answer: str, phrase: str):
-    prompt = f"Phrase initiale : {phrase}\nCorrection proposée : {answer}\nCorrige ou approuve."
-    return {"correction": query_groq_llm("/exercise/grammar", prompt)}
-
-"""
-
 @app.get("/exercise/langue")
 def get_language_exercise():
     question = query_groq_llm("/exercise/langue", f"Génère un exercice pour enfant.")
@@ -141,7 +111,8 @@ def check_language_answer(answer: str, instruction: str):
     prompt = (
         f"Exercice : {instruction}\n"
         f"Réponse proposée : {answer}\n"
-        f"Évalue si la réponse est correcte, claire ou à améliorer, pour un élève de primaire."
+        f"Évalue si la réponse est correcte, claire ou à améliorer par rapport à la question. Si la réponse est incorrecte, écrit très clairement \"incorrect\" dans la réponse et explique pourquoi et indique une réponse attendue\n" 
+        f"N’ajoute pas d’introduction ni de commentaire ('Voici la réponse correcte à...'). Retourne uniquement ta réponse à celle de l'élève."
     )
     feedback = query_groq_llm("/exercise/langue", prompt)
     return {"feedback": feedback}
@@ -176,6 +147,34 @@ def get_quiz_question():
 
 
 """
+@app.post("/exercise/math")
+def check_math_answer(user_answer: str, question: str):
+    full_prompt = f"Question : {question}\nRéponse donnée : {user_answer}\nÉvalue si c'est correct."
+    correction = query_groq_llm("/exercise/math", full_prompt)
+    return {"correction": correction}
+
+
+@app.get("/exercise/vocab")
+def get_vocab_exercise():
+    question = query_groq_llm("/exercise/vocab", "Donne un mot et demande un synonyme.")
+    return {"instruction": question}
+
+@app.post("/exercise/vocab")
+def check_vocab_answer(answer: str, question: str):
+    prompt = f"Mot demandé : {question}\nRéponse : {answer}\nDis si c'est bon."
+    return {"feedback": query_groq_llm("/exercise/vocab", prompt)}
+
+@app.get("/exercise/grammar")
+def get_grammar_exercise():
+    question = query_groq_llm("/exercise/grammar", "Fournis une phrase mal écrite à corriger.")
+    return {"phrase": question}
+
+@app.post("/exercise/grammar")
+def check_grammar_answer(answer: str, phrase: str):
+    prompt = f"Phrase initiale : {phrase}\nCorrection proposée : {answer}\nCorrige ou approuve."
+    return {"correction": query_groq_llm("/exercise/grammar", prompt)}
+
+
 @app.post("/quiz")
 def check_quiz_answer(answer: str, question: str):
     prompt = f"Question : {question}\nRéponse : {answer}\nEst-ce correct ?"
@@ -199,6 +198,16 @@ def generate_story_continue(previous: str, theme: str, character: str):
     return {"story": story}
 
 
+@app.post("/story/end")
+def generate_end_of_story(previous: str, theme: str, character: str):
+    prompt = (
+        f"Tu racontes une histoire dans le thème '{theme}', "
+        f"avec le personnage principal '{character}'. Voici le début de l'histoire :\n\n"
+        f"{previous}\n\nTermine cette histoire avec le même style et personnage."
+    )
+    story = query_groq_llm("/story/continue", prompt)
+    return {"story": story}
+
 
 
 # ======================== Parent - Fonctions ========================
@@ -211,10 +220,18 @@ def get_parent_profile(parent_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Parent non trouvé")
     return user
 
-@app.get("/parent/children", response_model=list[schemas.User])
-def get_all_children(db: Session = Depends(get_db)):
-    users = db.query(models.User).filter(models.User.is_parent == False).all()
-    return users
+@app.get("/parent/{parent_id}/children", response_model=list[schemas.User])
+def get_children_for_parent(parent_id: int, db: Session = Depends(get_db)):
+    parent = crud.get_user(db, parent_id)
+    if not parent or not parent.is_parent:
+        raise HTTPException(status_code=404, detail="Parent non trouvé")
+
+    children = db.query(models.User).filter(
+        models.User.is_parent == False,
+        models.User.parent_id == parent_id
+    ).all()
+
+    return children
 
 @app.put("/parent/settings")
 def update_parent_settings(user_id: int, new_password: str, db: Session = Depends(get_db)):

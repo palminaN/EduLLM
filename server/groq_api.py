@@ -40,7 +40,7 @@ def query_groq_llm(route: str, user_text: str, model="gemma2-9b-it"):
         response = client.chat.completions.create(
             model=model,
             messages=messages,
-            temperature=0.8
+            temperature=1
         )
 
         answer = response.choices[0].message.content
