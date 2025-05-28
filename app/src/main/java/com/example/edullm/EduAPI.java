@@ -43,7 +43,7 @@ public interface EduAPI {
     Call<User> createChild(@Query("parent_id") int parent_id, @Body RegisterLoginRequest newUser);
 
     @GET("child/{child_id}/profile")
-    Call<ChildProfile> getChildProfile(@Path("child_id") long childId);
+    Call<User> getChildProfile(@Path("child_id") long childId);
 
     @GET("parent/{parent_id}/profile")
     Call<ParentProfile> getParentProfile(@Path("parent_id") long parentId);
@@ -75,8 +75,9 @@ public interface EduAPI {
     @PUT("parent/settings")
     Call<MajMdp> updateParentPassword(@Query("user_id") int user_id, @Query("new_password") String password);
 
+
     @PUT("parent/children/{child_id}")
-    Call<RegisterLoginRequest> updateChildPassword(@Path("child_id") int child_id,
+    Call<User> updateChildPassword(@Path("child_id") int child_id,
                                                    @Query("parent_id")int parent_id,
                                                    @Body RegisterLoginRequest user);
 
