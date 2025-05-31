@@ -79,7 +79,6 @@ public class FragmentChangerMdp extends Fragment {
 
 
             if(pw1.isEmpty() || pw2.isEmpty() || !pw1.equals(pw2)) {
-                // TODO ADD ERROR MESSAGE
                 return;
             }
 
@@ -125,7 +124,6 @@ public class FragmentChangerMdp extends Fragment {
                });
 
                if(child == null) {
-                   // TODO ?? ADD ERROR MESSAGE ON SCREEN
                    return;
                }
 
