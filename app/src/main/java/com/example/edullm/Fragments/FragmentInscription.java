@@ -35,6 +35,9 @@ public class FragmentInscription extends Fragment {
         TextView tv_email = view.findViewById(R.id.email);
         TextView tv_password = view.findViewById(R.id.password);
         TextView tv_password_confirm = view.findViewById(R.id.confirm_password);
+        TextView emailErr = view.findViewById(R.id.email_error);
+        TextView passwordErr = view.findViewById(R.id.password_error);
+
 
         userViewModel.isLoggedIn().observe(getViewLifecycleOwner(), isRegistered -> {
             if (isRegistered) {
@@ -52,10 +55,13 @@ public class FragmentInscription extends Fragment {
                 String email = tv_email.getText().toString().trim();
                 String pw1 = tv_password_confirm.getText().toString().trim();
                 String pw2 = tv_password.getText().toString().trim();
+                emailErr.setVisibility(View.GONE);
+                passwordErr.setVisibility(View.GONE);
                 boolean isValid = true;
 
                 if(email.isEmpty()){
                     isValid = false;
+                    emailErr.setVisibility(View.VISIBLE);
 
                 }
 
@@ -69,6 +75,7 @@ public class FragmentInscription extends Fragment {
 
                 if(!pw1.equals(pw2)) {
                     isValid = false;
+                    passwordErr.setVisibility(View.VISIBLE);
                 }
 
 

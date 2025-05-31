@@ -21,44 +21,44 @@
         android:id="@+id/tvThemeQ"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:text="Quel doit être le thème de ton histoire ?"
-        android:textAlignment="center"
+        android:textAlignment="textStart"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitleStory"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitleStory" />
 
     <EditText
         android:id="@+id/etTheme"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="24dp"
         android:background="@color/white"
-        android:hint="Entre tes idées  dans cette case !"
         android:gravity="top|start"
+        android:hint="Entre tes idées  dans cette case !"
         android:inputType="textMultiLine"
         android:padding="12dp"
-        app:layout_constraintTop_toBottomOf="@+id/tvThemeQ"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvThemeQ" />
 
     <TextView
         android:id="@+id/tvHeroQ"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:text="Comment va s’appeler ton personnage ?"
-        android:textAlignment="center"
+        android:textAlignment="textStart"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/etTheme"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etTheme" />
 
     <EditText
         android:id="@+id/etHero"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         android:layout_marginTop="24dp"
         android:background="@color/white"
         android:gravity="top|start"

@@ -10,6 +10,9 @@ import com.example.edullm.EduAPI;
 import com.example.edullm.Models.RegisterLoginRequest;
 import com.example.edullm.Models.User;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -19,6 +22,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class UserViewModel extends ViewModel {
     private MutableLiveData<Boolean> logged_in = new MutableLiveData<>();
     private EduAPI apiService;
+
+    private MutableLiveData<List<User>> children = new MutableLiveData<>();
 
     private MutableLiveData<User> user = new MutableLiveData<>();
 
@@ -30,6 +35,10 @@ public class UserViewModel extends ViewModel {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         apiService = retrofit.create(EduAPI.class);
+    }
+
+    public MutableLiveData<List<User>> getChildren() {
+        return children;
     }
 
     public LiveData<Boolean> isLoggedIn() {
@@ -73,7 +82,7 @@ public class UserViewModel extends ViewModel {
                     user.postValue(response.body());
                     logged_in.postValue(true);
                 } else {
-                    logged_in.postValue(false);
+                    user.postValue(null);
                 }
             }
 
@@ -87,9 +96,37 @@ public class UserViewModel extends ViewModel {
 
     }
 
+    public void getUserChildren() {
+        if(getUser() == null || !getUser().getValue().is_parent) return;
+
+
+        Call<List<User>> call = apiService.getAllChildren(getUser().getValue().getId());
+        call.enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                Log.d("APICALL", String.valueOf(response));
+                if (response.isSuccessful() && response.body() != null) {
+                    children.postValue(response.body());
+                    logged_in.postValue(true);
+                } else {
+                    logged_in.postValue(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                Log.d("API GET CHILDREN" , "ERROR FETCHING DATA");
+            }
+        });
+
+
+    }
+
     public  void logout() {
         user.postValue(null);
         logged_in.postValue(false);
+        List<User> emptyList = new ArrayList<>();
+        children.postValue(emptyList);
     }
 
 

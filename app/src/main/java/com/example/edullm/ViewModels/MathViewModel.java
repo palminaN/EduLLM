@@ -32,6 +32,10 @@ public class MathViewModel extends ViewModel {
     }
 
 
+    public LiveData<Boolean> getIsLoading() {
+        return isLoading;
+    }
+
     public LiveData<MathExercise> getCurrentQuestion() {
         return currentQuestion;
     }

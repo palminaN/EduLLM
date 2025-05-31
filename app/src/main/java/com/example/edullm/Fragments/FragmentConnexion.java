@@ -37,7 +37,13 @@ public class FragmentConnexion extends Fragment {
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
 
-
+        RadioGroup userTypeGroup = view.findViewById(R.id.user_type_group);
+        EditText username = view.findViewById(R.id.username);
+        EditText password = view.findViewById(R.id.password);
+        TextView usernameError = view.findViewById(R.id.username_error);
+        TextView passwordError = view.findViewById(R.id.password_error);
+        // TextView forgotPassword = view.findViewById(R.id.forgot_password);
+        TextView registerPrompt = view.findViewById(R.id.register_prompt);
 
 
         MainActivity activity = (MainActivity) getActivity();
@@ -46,8 +52,11 @@ public class FragmentConnexion extends Fragment {
         }
 
         userViewModel.getUser().observe(getViewLifecycleOwner(),user -> {
+            passwordError.setVisibility(View.GONE);
             if(userViewModel.getUser().getValue() == null) {
                 Log.d("ERROR","NO USER");
+                passwordError.setText("Erreur de connexion, veuillez réessayer");
+                passwordError.setVisibility(View.VISIBLE);
                 return;
             }
 
@@ -68,13 +77,7 @@ public class FragmentConnexion extends Fragment {
             }
         });
 
-        RadioGroup userTypeGroup = view.findViewById(R.id.user_type_group);
-        EditText username = view.findViewById(R.id.username);
-        EditText password = view.findViewById(R.id.password);
-        TextView usernameError = view.findViewById(R.id.username_error);
-        TextView passwordError = view.findViewById(R.id.password_error);
-        TextView forgotPassword = view.findViewById(R.id.forgot_password);
-        TextView registerPrompt = view.findViewById(R.id.register_prompt);
+
 
         registerPrompt.setOnClickListener(v -> {
 
@@ -86,25 +89,21 @@ public class FragmentConnexion extends Fragment {
         userTypeGroup.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.radio0) { // Parent selected
                 this.isParentRadio = true;
-                username.setHint("Nom d'utilisateur");
+                username.setHint("E-mail parent");
                 password.setHint("Mot de passe");
                 username.setText("");
                 password.setText("");
                 usernameError.setText("Nom d'utilisateur incorrect");
                 passwordError.setText("Mot de passe incorrect");
 
-                forgotPassword.setVisibility(View.VISIBLE);
+                //forgotPassword.setVisibility(View.VISIBLE);
                 registerPrompt.setVisibility(View.VISIBLE);
             } else if (checkedId == R.id.radio1) { // Enfant selected
                 this.isParentRadio = false;
-                username.setHint("Nom de l'enfant");
-                password.setHint("Code secret");
-                username.setText("");
-                password.setText("");
-                usernameError.setText("Nom de l'enfant incorrect");
-                passwordError.setText("Code secret incorrect");
+                username.setHint("E-mail enfant");
+                password.setHint("code secret");
 
-                forgotPassword.setVisibility(View.GONE);
+                // forgotPassword.setVisibility(View.GONE);
                 registerPrompt.setVisibility(View.GONE);
             }
         });
@@ -114,14 +113,26 @@ public class FragmentConnexion extends Fragment {
             @Override
             public void onClick(View v) {
 
+                passwordError.setVisibility(View.GONE);
+                usernameError.setVisibility(View.GONE);
+
 
                 String mail = username.getText().toString().trim();
                 String pw = password.getText().toString().trim();
-                if(!isParentRadio) {
-                    NavController navController = Navigation.findNavController(v);
-                    navController.navigate(R.id.connexion_to_home_enfant);
-                    return;
+                boolean isValid = true;
+                if(pw.isEmpty()) {
+                    isValid = false;
+                    passwordError.setText("Veuillez entrer votre mot de passe");
+                    passwordError.setVisibility(View.VISIBLE);
                 }
+
+                if(mail.isEmpty()) {
+                    isValid= false;
+                    usernameError.setText("Veuillez entrer une adresse e-mail");
+                    usernameError.setVisibility(View.VISIBLE);
+                }
+
+                if(!isValid) return;
 
 
                 userViewModel.login(new RegisterLoginRequest(mail,pw));

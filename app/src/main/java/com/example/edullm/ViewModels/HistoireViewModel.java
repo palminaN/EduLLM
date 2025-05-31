@@ -94,4 +94,28 @@ public class HistoireViewModel extends ViewModel {
             }
         });
     }
+
+
+    public void finishStory(String theme, String character, String previous) {
+        isLoading.postValue(true);
+        Call<StorySession> call = eduAPI.finishStory(theme, character, previous);
+        call.enqueue(new Callback<StorySession>() {
+            @Override
+            public void onResponse(Call<StorySession> call, Response<StorySession> response) {
+                isLoading.postValue(false);
+                if (response.isSuccessful() && response.body() != null) {
+                    currentStorySession.postValue(response.body());
+                } else {
+                    errorMessage.postValue("Erreur en continuant l'histoire. Code : " + response.code());
+                }
+                Log.d("TEST CONTINUE", String.valueOf(response.body()));
+            }
+
+            @Override
+            public void onFailure(Call<StorySession> call, Throwable t) {
+                isLoading.postValue(false);
+                errorMessage.postValue("Erreur réseau : " + t.getMessage());
+            }
+        });
+    }
 }

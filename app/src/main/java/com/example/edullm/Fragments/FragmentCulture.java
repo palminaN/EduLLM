@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -16,6 +17,7 @@ import androidx.navigation.Navigation;
 import com.example.edullm.EduAPI;
 import com.example.edullm.R;
 import com.example.edullm.ViewModels.QuizViewModel;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.Map;
 import java.util.Objects;
@@ -26,6 +28,8 @@ public class FragmentCulture extends Fragment  implements View.OnClickListener {
     private String choice = "A";
     private String reponse = "NULL";
     private  int currentQuestionNumber= 1;
+
+    int numQuestion;
 
 
     private QuizViewModel quizViewModel;
@@ -45,9 +49,11 @@ public class FragmentCulture extends Fragment  implements View.OnClickListener {
         Button buttonValider = view.findViewById(R.id.btnNext);
         TextView textViewQuestion = view.findViewById(R.id.tvQuestion);
         TextView indicator = view.findViewById(R.id.tvQuestion2);
+        ShimmerFrameLayout shimmerLayout = view.findViewById(R.id.shimmerLayout);
+        shimmerLayout.startShimmer();
+        ConstraintLayout contentLayout = view.findViewById(R.id.contentLayout);
 
 
-        int numQuestion;
 
 
 
@@ -56,12 +62,12 @@ public class FragmentCulture extends Fragment  implements View.OnClickListener {
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            numQuestion = bundle.getInt("numQ");
+            this.numQuestion = bundle.getInt("numQ");
             Log.d("Fragment", "Received value from bundle: " + numQuestion);
 
             // Use myValue as needed
         } else {
-            numQuestion = 5;
+            this.numQuestion = 5;
             Log.d("Fragment", "No arguments passed to this Fragment");
         }
 
@@ -79,6 +85,9 @@ public class FragmentCulture extends Fragment  implements View.OnClickListener {
                 buttonC.setText("C: " + choices.get("C"));
                 indicator.setText(currentQuestionNumber + "/" + numQuestion);
                 reponse = question.getCorrectAnswer();
+                shimmerLayout.stopShimmer();
+                shimmerLayout.setVisibility(View.GONE);  // Optionally hide shimmer
+                contentLayout.setVisibility(View.VISIBLE);  // Show real content
 
 
 
@@ -118,7 +127,7 @@ public class FragmentCulture extends Fragment  implements View.OnClickListener {
 
         buttonValider.setOnClickListener(v -> {
 
-            if(currentQuestionNumber >= numQuestion) {
+            if(currentQuestionNumber >= numQuestion && answered) {
                 Bundle bundle1 = new Bundle();
                 bundle1.putInt("numQ",numQuestion);
                 bundle1.putInt("score",quizViewModel.getScore());

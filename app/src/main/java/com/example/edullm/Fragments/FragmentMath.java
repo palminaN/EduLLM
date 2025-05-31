@@ -17,6 +17,7 @@ import androidx.navigation.Navigation;
 import com.example.edullm.R;
 import com.example.edullm.ViewModels.MathViewModel;
 import com.example.edullm.ViewModels.QuizViewModel;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 public class FragmentMath extends Fragment {
 
@@ -35,14 +36,27 @@ public class FragmentMath extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         TextView tvQuestion = view.findViewById(R.id.tvProblem);
+        TextView tvNumQ = view.findViewById(R.id.tvNumQuestion);
         EditText reponseEnfant = view.findViewById(R.id.etMathAnswer);
         Button btnNextMath = view.findViewById(R.id.btnNextMath);
         MathViewModel mathViewModel = new ViewModelProvider(this).get(MathViewModel.class);
-
+        tvQuestion.setAlpha(0f);
+        tvNumQ.setAlpha(0f);
         mathViewModel.getCurrentQuestion().observe(getViewLifecycleOwner(),mathExercise -> {
+            tvNumQ.setText(currentQuestionNumber + "/" + numQuestion);
+            tvQuestion.setText( mathExercise.getQuestion());
+            tvQuestion.animate()
+                    .alpha(1f)
+                    .setDuration(500)
+                    .setListener(null);
 
-            tvQuestion.setText(mathExercise.getQuestion());
+            tvNumQ.animate()
+                    .alpha(1f)
+                    .setDuration(500)
+                    .setListener(null);
+
             btnNextMath.setText("Valider");
+
 
         });
 
@@ -59,7 +73,6 @@ public class FragmentMath extends Fragment {
 
         mathViewModel.startQuiz(numQuestion);
 
-
         btnNextMath.setOnClickListener(v -> {
 
             if(currentQuestionNumber > numQuestion) {
@@ -72,8 +85,9 @@ public class FragmentMath extends Fragment {
             }
 
             if(!answered) {
-                tvQuestion.setText("La bonne reponse est :" + String.valueOf(mathViewModel.getCurrentQuestion().getValue().getAnswer()));
-                double reponse = Double.parseDouble(reponseEnfant.getText().toString());
+                int bonneReponse= (int) mathViewModel.getCurrentQuestion().getValue().getAnswer();
+                tvQuestion.setText("La bonne reponse est " + String.valueOf(bonneReponse));
+                int reponse = Integer.parseInt(reponseEnfant.getText().toString());
                 answered = true;
                 currentQuestionNumber++;
                 btnNextMath.setText("Question suivante");

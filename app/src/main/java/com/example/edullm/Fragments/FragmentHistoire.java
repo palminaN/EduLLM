@@ -21,6 +21,8 @@ public class FragmentHistoire extends Fragment {
     private String theme;
     private String hero;
 
+    private boolean stopped = false;
+
     private String storyMemory = "";
 
     int i = 0;
@@ -40,6 +42,19 @@ public class FragmentHistoire extends Fragment {
         Button btnArret = view.findViewById(R.id.btnArreter);
         Button btnContinuer = view.findViewById(R.id.btnContinueStory);
         btnArret.setOnClickListener(v -> {
+
+
+            if(!stopped) {
+                stopped = true;
+                histoireViewModel.finishStory(theme,hero,storyMemory);
+                btnContinuer.setEnabled(false);
+                btnContinuer.setVisibility(View.GONE);
+                btnArret.setText("Retour au menu");
+
+                return;
+            }
+
+
             NavController navController = Navigation.findNavController(v);
             navController.navigate(R.id.action_histoire_to_home_enfant);
 
@@ -61,7 +76,8 @@ public class FragmentHistoire extends Fragment {
 
         histoireViewModel.getCurrentStorySession().observe(getViewLifecycleOwner(),storySession -> {
             btnContinuer.setEnabled(false);
-
+            btnArret.setEnabled(false);
+            storyMemory = "";
             String[] storyNew = storySession.getStory().replace("\n"," ").split(" ");
             int length = storyNew.length;
 
@@ -79,6 +95,7 @@ public class FragmentHistoire extends Fragment {
                         handler.postDelayed(this,150);
                     } else {
                         btnContinuer.setEnabled(true);
+                        btnArret.setEnabled(true);
                     }
 
 

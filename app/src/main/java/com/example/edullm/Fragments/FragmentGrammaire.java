@@ -36,6 +36,9 @@ public class FragmentGrammaire extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         TextView tvQuestion = view.findViewById(R.id.tvVocabPrompt);
+        tvQuestion.setAlpha(0f);
+        TextView tvNumQ = view.findViewById(R.id.tvNumQuestionVocab);
+        tvNumQ.setAlpha(0f);
         EditText reponseEnfant = view.findViewById(R.id.etVocab);
         Button btnNextVocab = view.findViewById(R.id.btnNextVocab);
 
@@ -56,14 +59,24 @@ public class FragmentGrammaire extends Fragment {
 
         vocabViewModel.getCurrentQuestion().observe(getViewLifecycleOwner(), langueExercise -> {
             tvQuestion.setText(langueExercise.getInstruction());
+            tvNumQ.setText(currentQuestionNumber + "/" +numQuestion);
+            tvQuestion.animate()
+                    .alpha(1f)
+                    .setDuration(500)
+                    .setListener(null);
+
+            tvNumQ.animate()
+                    .alpha(1f)
+                    .setDuration(500)
+                    .setListener(null);
             btnNextVocab.setText("Valider");
 
         });
 
         vocabViewModel.getCurrentQuestionFeedback().observe(getViewLifecycleOwner(), langueExerciseResult -> {
-
-            if (langueExerciseResult.getFeedback().contains("incorrecte")) {
-                tvQuestion.setText("Continue d'essayer !");
+            Log.d("LLM FeedBack",langueExerciseResult.getFeedback());
+            if (langueExerciseResult.getFeedback().contains("incorrect")) {
+                tvQuestion.setText(langueExerciseResult.getFeedback());
 
             } else {
                 vocabViewModel.incrementScore();
@@ -102,6 +115,7 @@ public class FragmentGrammaire extends Fragment {
 
             } else {
                 answered = false;
+                reponseEnfant.setText("");
                 vocabViewModel.fetchNextQuestion();
 
             }

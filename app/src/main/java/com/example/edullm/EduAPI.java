@@ -1,6 +1,5 @@
 package com.example.edullm;
 
-import com.example.edullm.Models.ChildProfile;
 import com.example.edullm.Models.LangueExercise;
 import com.example.edullm.Models.LangueExerciseResult;
 import com.example.edullm.Models.MajMdp;
@@ -80,6 +79,11 @@ public interface EduAPI {
     Call<User> updateChildPassword(@Path("child_id") int child_id,
                                                    @Query("parent_id")int parent_id,
                                                    @Body RegisterLoginRequest user);
+
+    @POST("story/end")
+    Call<StorySession> finishStory(@Query("theme") String theme,
+                                   @Query("character") String character,
+                                   @Query("previous") String previous);
 
 
 

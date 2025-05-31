@@ -55,11 +55,11 @@ public class FragmentResults  extends Fragment {
 
         resultats.setText("Ton score : " + score +"/" + numQuestion );
 
-        if(ratio > 0.75) {
+        if(ratio >= 0.75) {
             textResultats.setText("Youpi ! Tu as super bien reussi le quiz ! ");
-        } else if(ratio > 0.50) {
+        } else if(ratio >= 0.50) {
             textResultats.setText("Super ! tu as as eu bon a pleins de question !");
-        } else if(ratio > 0.25) {
+        } else if(ratio >= 0.25) {
             textResultats.setText("Tu commences bien continue comme ca !");
         } else {
             textResultats.setText("Continue de jouer si tu veux t'ameliorer avec moi !");
