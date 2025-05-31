@@ -8,8 +8,195 @@
 
     <fragment
         android:id="@+id/connexion"
-        android:name="com.example.edullm.Fragments.ConnexionFragment"
+        android:name="com.example.edullm.Fragments.FragmentConnexion"
+        android:label="Connexion"
+        tools:layout="@layout/fragment_connexion" >
+
+        <action android:id="@+id/connexion_to_home_enfant" app:destination="@id/home_enfant"></action>
+
+        <action android:id="@+id/connexion_to_home_parent" app:destination="@id/home_parent"></action>
+        <action
+            android:id="@+id/action_connexion_to_inscription_parent"
+            app:destination="@id/inscription_parent" />
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/home_enfant"
+        android:name="com.example.edullm.Fragments.HomeEnfantFragment"
+        android:label="Home for Children"
+        tools:layout="@layout/fragment_home_enfant" >
+
+
+
+        <action android:id="@+id/home_enfant_to_histoire" app:destination="@id/histoire_setup"></action>
+
+        <action android:id="@+id/home_enfant_to_setup_quiz" app:destination="@id/quiz_debut"></action>
+
+        <action android:id="@+id/home_enfant_to_connexion" app:destination="@id/connexion"></action>
+        <action
+            android:id="@+id/action_home_enfant_to_connexion"
+            app:destination="@id/connexion" />
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/home_parent"
+        android:name="com.example.edullm.Fragments.HomeParentFragment"
+        android:label="Home for Parents"
+        tools:layout="@layout/fragment_profil_parent" >
+
+
+        <action
+            android:id="@+id/home_parent_to_connexion"
+            app:destination="@id/connexion" />
+
+        <action
+            android:id="@+id/home_parent_to_gestion_enfants"
+            app:destination="@id/gestion_enfants" />
+        <action
+            android:id="@+id/action_home_parent_to_change_pwd"
+            app:destination="@id/change_pwd" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/gestion_enfants"
+        android:name="com.example.edullm.Fragments.FragmentGestionEnfants"
+        android:label="Gestion des comptes enfants"
+        tools:layout="@layout/fragment_parent_gestion_enfants"
+        >
+
+        <action android:id="@+id/gestion_enfants_to_inscription_enfant" app:destination="@id/inscription_enfant"></action>
+        <action
+            android:id="@+id/action_gestion_enfants_to_change_pwd"
+            app:destination="@id/change_pwd" />
+
+
+    </fragment>
+
+
+
+
+    <fragment
+        android:id="@+id/maths"
+        android:name="com.example.edullm.Fragments.FragmentMath"
+        android:label="Math exercices"
+        tools:layout="@layout/fragment_maths" >
+
+        <action app:destination="@id/resultats" android:id="@+id/maths_to_resultats" ></action>
+
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/histoire_setup"
+        android:name="com.example.edullm.Fragments.FragmentHistoireSetup"
+        android:label="Stories Home"
+        tools:layout="@layout/fragment_histoire_setup" >
+
+        <action android:id="@+id/histoire_setup_to_histoire"
+            app:destination="@id/histoire"></action>
+
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/histoire"
+        android:name="com.example.edullm.Fragments.FragmentHistoire"
+        android:label="Histoires pour enfants"
+        tools:layout="@layout/fragment_histoire" >
+        <action
+            android:id="@+id/action_histoire_to_home_enfant"
+            app:destination="@id/home_enfant" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/grammaire"
+        android:name="com.example.edullm.Fragments.FragmentGrammaire"
+        android:label="Grammar exercices"
+        tools:layout="@layout/fragment_grammaire" >
+
+
+        <action app:destination="@id/resultats" android:id="@+id/grammaire_to_resultats" ></action>
+
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/culture"
+        android:name="com.example.edullm.Fragments.FragmentCulture"
         android:label="Home"
-        tools:layout="@layout/connexion_layout" />
+        tools:layout="@layout/fragment_culture" >
+
+        <action app:destination="@id/resultats" android:id="@+id/culture_to_resultats" ></action>
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/resultats"
+        android:name="com.example.edullm.Fragments.FragmentResults"
+        android:label="Resultats des exercices"
+        tools:layout="@layout/fragment_resultats" >
+
+        <action android:id="@+id/resultats_to_home_enfant" app:destination="@id/home_enfant"></action>
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/quiz_debut"
+        android:name="com.example.edullm.Fragments.FragmentSetupQuiz"
+        android:label="Home"
+        tools:layout="@layout/fragment_setup_quiz" >
+
+        <action android:id="@+id/quiz_debut_to_culture" app:destination="@id/culture"></action>
+
+        <action android:id="@+id/quiz_debut_to_maths" app:destination="@id/maths"></action>
+
+
+        <action android:id="@+id/quiz_debut_to_grammaire" app:destination="@id/grammaire"></action>
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/inscription_parent"
+        android:name="com.example.edullm.Fragments.FragmentInscription"
+        android:label="Home"
+        tools:layout="@layout/fragment_inscription" >
+
+        <action android:id="@+id/inscription_parent_to_connexion" app:destination="@id/connexion"></action>
+
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/inscription_enfant"
+        android:name="com.example.edullm.Fragments.FragmentInscriptionEnfant"
+        android:label="Home"
+        tools:layout="@layout/fragment_ajouter_enfant" >
+
+        <action android:id="@+id/inscription_enfant_to_profil_parent" app:destination="@id/home_parent"></action>
+
+
+    </fragment>
+
+
+    <fragment android:id="@+id/change_pwd" android:name="com.example.edullm.Fragments.FragmentChangerMdp" android:label="Changer Mot de passe " tools:layout="@layout/fragment_change_password">
+
+
+        <action
+            android:id="@+id/action_change_pwd_to_home_parent"
+            app:destination="@id/home_parent" />
+    </fragment>
+
 
 </navigation>
